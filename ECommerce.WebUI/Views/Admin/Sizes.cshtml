@@ -1,0 +1,29 @@
+﻿@model IEnumerable<ECommerce.Domain.Model.Size>
+@{
+    ViewBag.Title = "Sizes";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+<br />
+<p>
+    @Html.ActionLink(Resource.Add, "editsize")
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.Title)
+        </th>
+        <th></th>
+    </tr>
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Title)
+            </td>
+            <td>
+                @Html.ActionLink(Resource.Edit, "editsize", new { arg1 = item.SizeID })
+            </td>
+        </tr>
+    }
+</table>
+

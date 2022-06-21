@@ -1,0 +1,60 @@
+﻿<footer class="site-footer">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-4">
+                <section class="widget widget-light-skin">
+                    <h3 class="widget-title"><b>@Resource.Contact</b></h3>
+                    <p class="text-white">@Resource.Phone: <a class="navi-link-light" href="tel:0638251498">063 825-1498</a></p>
+                    <p class="text-white">@Resource.Email: <a class="navi-link-light" href="mailto:nastyanicak@gmail.com">nastyanicak@gmail.com</a></p>
+                    <a class="social-button shape-circle sb-instagram sb-light-skin" href="https://www.instagram.com/nitsak.com.ua/" target="_blank" rel="nofollow"><i class="socicon-instagram"></i></a>
+                    <a class="social-button shape-circle sb-vk sb-light-skin" href="https://vk.com/id86214736" target="_blank" rel="nofollow"><i class="socicon-vkontakte"></i></a>
+                    <a class="social-button shape-circle sb-facebook sb-light-skin" href="https://www.facebook.com/profile.php?id=100024375933840" target="_blank" rel="nofollow"><i class="socicon-facebook"></i></a>
+                </section>
+            </div>
+            <div class="col-md-4">
+                <section class="widget widget-links widget-light-skin">
+                    <h3 class="widget-title"><b>@Resource.ToСlients</b></h3>
+                    <ul>
+                        <li><a href="@Url.Action("about", "info")">@Resource.AboutUs</a></li>
+                        <li><a href="@Url.Action("shipping-and-payment", "info")">@Resource.ShippingAndPayment</a></li>
+                        <li><a href="@Url.Action("reviews", "info")">@Resource.Reviews</a></li>
+                        <li><a href="@Url.Action("contact", "info")">@Resource.Contact</a></li>
+                        <li><a href="@Url.Action("podarochnii-sertifikat", "info")">@Resource.Sertifikaty</a></li>
+                    </ul>
+                </section>
+            </div>
+            <div class="col-md-4">
+                <section class="widget widget-links widget-light-skin">
+                    <h3 class="widget-title"><b>@Resource.WaysPayment</b></h3>
+                    <i class="footer__column-icon footer__icon-mastercard"></i>
+                    <i class="footer__column-icon footer__icon-visa"></i>
+                    <span class="form-text text-sm text-white">Вы можете оплатить покупки наличными при получении, либо выбрать другой способ оплаты.</span>
+                </section>
+            </div>
+        </div>
+        <hr class="hr-light mt-2 margin-bottom-2x">
+        <div class="row justify-content-between">
+            <div class="col-lg-6 col-md-6">
+                <h3 class="widget-title-stoke">@Resource.OfflineStore</h3>
+                <p class="text-stoke">@Html.ActionLink(Resource.StoreLocation, "contact", "info", null, null, "store", null, new { @class = "navi-link-light" })</p>
+                <ul class="list-unstyled text-sm text-white">
+                    <li><span class="opacity-50">Вторник - Пятница:</span> 12.00 - 19.00</li>
+                    <li><span class="opacity-50">Суббота - Воскресенье:</span> 12.00 - 17.00</li>
+                    <li><span class="opacity-50">Понедельник:</span> Выходной</li>
+                </ul>
+            </div>
+            <div class="col-lg-5 col-md-6 padding-bottom-1x">
+                <div class="margin-top-1x hidden-md-up"></div>
+                @Html.Partial("_Email")
+            </div>
+        </div>
+        <p class="footer-copyright text-center">© Интернет-магазин <span class="gold-color">«Nitsak»</span></p>
+    </div>
+</footer>
+<div xmlns:v="http://rdf.data-vocabulary.org/#" typeof="v:Organization">
+    <span property="v:name" content="Интернет-магазин Nitsak"></span>
+    <div rel="v:address"><div typeof="v:Address"><span property="v:street-address" content="г. Винница ул. Коцюбинского 70, Торговый центр 'Петроцентр', второй этаж - магазин Nitsak"></span></div></div>
+    <span property="v:tel" content="063 825-14981"></span>
+    <span property="v:url" content="@Resource.UrlSite"></span>
+</div>
+

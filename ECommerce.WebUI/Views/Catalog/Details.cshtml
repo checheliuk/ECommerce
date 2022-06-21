@@ -1,0 +1,171 @@
+﻿@model ECommerce.Domain.ViewModel.HomeDetailsViewModels
+@{
+    ViewBag.Title = Model.Product.Title + ": цена, отзывы, продажа";
+    ViewBag.Description = Model.Product.Title + " купить в интернет-магазине ➦ nitsak.com.ua. ☎: 063 825-1498. $ лучшие цены, ✈ быстрая доставка, ☑ гарантия!";
+    ViewBag.Keywords = Model.Product.Title;
+    var isActiveFirst = true;
+    var isActiveSecond = true;
+    var categoryIteration = 0;
+    var image = Resource.UrlSite + Model.Product.PathToTitlePhoto;
+}
+@section meta{
+    <meta name="twitter:image" content="@image">
+    <meta name="twitter:title" content="@Model.Product.Title">
+    <meta name="twitter:description" content="@ViewBag.Description">
+    <meta property="og:image" content="@image">
+    <meta property="og:type" content="product">
+    <meta property="og:title" content="@Model.Product.Title">
+    <meta property="og:description" content="@ViewBag.Description">
+    <link rel="canonical" href="@(Resource.UrlSite + "/catalog/details/" + Model.Product.Url + "/" + Model.Product.ProductID)" />
+    <meta property="product:age_group" content="adult">
+    <meta property="product:availability" content="instock">
+    <meta property="product:price:amount" content="@Model.Product.Price">
+    <meta property="product:price:currency" content="@Resource.Currency">
+    <meta property="product:condition" content="@Resource.New">
+    <meta property="product:availability" content="@Resource.AvailableProduct">
+}
+<div class="page-title">
+    <div class="container">
+        <div class="column"><h1>@Model.Product.Title</h1></div>
+        <div class="column">
+            <ul class="breadcrumbs">
+                <li itemscope itemtype="http://data-vocabulary.org/Breadcrumb"><a itemprop="url" href="@Url.Action("grid", "catalog")"><span itemprop="title">@Resource.Catalog</span></a></li>
+                <li class="separator">&nbsp;</li>
+                <li itemscope itemtype="http://data-vocabulary.org/Breadcrumb"><a itemprop="url" href="@Url.Action("details", "catalog", new { arg1 = Model.Product.Url, arg2 = Model.Product.ProductID })"><span itemprop="title">@Model.Product.Title</span></a></li>
+            </ul>
+        </div>
+    </div>
+</div>
+<div class="container padding-bottom-3x mb-1" itemscope itemtype="http://schema.org/Product">
+    <div class="row">
+        <div class="col-md-6">
+            <div class="product-gallery">
+                @if (Model.Product.Discount != null && Model.Product.FakePrice > Model.Product.Price)
+                {
+                    <span class="product-badge text-danger"><b>@Model.Product.Discount</b>% <b>@Resource.Discounts</b></span>
+                }
+                <div class="gallery-wrapper">
+                    @foreach (var photo in Model.Photos)
+                    {
+                        <div class="gallery-item @(isActiveFirst?"active":"")"><a href="@photo.Path" data-hash="@photo.PhotoID" data-size="@(photo.Width.ToString() + "x" + photo.Height.ToString())"></a></div>
+                        if (isActiveFirst) { isActiveFirst = false; }
+                    }
+                </div>
+                <div class="product-carousel owl-carousel">@foreach (var photo in Model.Photos) { <div data-hash="@photo.PhotoID"><img itemprop="image" src="@photo.Path" alt="@Model.Product.Title" title="@Model.Product.Title"></div>}</div>
+                <ul class="product-thumbnails">
+                    @foreach (var photo in Model.Photos)
+                    {
+                        <li class="@(isActiveSecond?"active":"")"><a href="#@photo.PhotoID"><img src="@photo.Thumbnail" alt="@Model.Product.Title" title="@Model.Product.Title"></a></li>
+                        if (isActiveSecond) { isActiveSecond = false; }
+                    }
+                </ul>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="padding-top-2x mt-2 hidden-md-up"></div>
+            <div class="rating-stars"><i class="icon-star filled"></i><i class="icon-star filled"></i><i class="icon-star filled"></i><i class="icon-star filled"></i><i class="icon-star filled"></i></div>
+            <span class="text-muted align-middle" itemprop="aggregateRating" itemscope itemtype="http://schema.org/AggregateRating">&nbsp;&nbsp;<span itemprop="ratingValue">4.9</span> | <span itemprop="reviewCount">48</span> отзывов</span>
+            <h2 class="@*padding-top-1x*@ text-normal" style="margin-top:10px;" itemprop="name">@Model.Product.Title</h2>
+            <span class="h2 d-block" itemprop="offers" itemscope itemtype="http://schema.org/Offer">
+                @if (Model.Product.FakePrice != null && Model.Product.FakePrice > Model.Product.Price)
+                {
+                    <del class="text-muted text-normal">@Model.Product.FakePrice @Resource.Currency</del>@:&nbsp;
+                }
+                <span itemprop="price" content="@Model.Product.Price">@Model.Product.Price</span>
+                <span itemprop="priceCurrency" content="UAH">@Resource.Currency</span> 
+                @if (Model.Product.Status == ECommerce.Domain.Model.EnumModel.ProductStatus.Available){ <link itemprop="availability" href="http://schema.org/InStock" /> }
+            </span>
+            <p itemprop="description">@Html.Raw(Model.Product.Description)</p>
+            <div class="row margin-top-1x">
+                @if (Model.Product.ProductSizes.Count() > 0)
+                {
+                    <div class="col-sm-4">
+                        <div class="form-group">
+                            <label for="size">@Resource.Size</label>
+                            <select class="form-control" id="size">@foreach (var size in Model.Product.ProductSizes){ <option value="@size.SizeID">@size.Size.Title</option> }</select>
+                        </div>
+                    </div>
+                }
+                @if (Model.Product.ProductColors.Count() > 0)
+                {
+                    <div class="col-sm-4">
+                        <div class="form-group">
+                            <label for="color">@Resource.Color</label>
+                            <select class="form-control" id="color">@foreach (var color in Model.Product.ProductColors) { <option value="@color.ColorID">@color.Color.Title</option> }</select>
+                        </div>
+                    </div>
+                }
+                <div class="col-sm-4">
+                    <div class="form-group">
+                        <label for="quantity">@Resource.Quantity</label>
+                        <select class="form-control" id="quantity"><option>1</option><option>2</option><option>3</option><option>4</option><option>5</option></select>
+                    </div>
+                </div>
+            </div>
+            @*<div class="pt-1 mb-2"><span class="text-medium">SKU:</span> #21457832</div>*@
+            @if (Model.Product.Categories.Count() > 0)
+            {
+                <div class="padding-bottom-1x mb-2">
+                    <span class="text-medium"><b>@Resource.Categories:&nbsp;</b></span>
+                    @foreach (var category in Model.Product.Categories)
+                    {
+                        categoryIteration++;
+                        <a class="navi-link" href="@Url.Action("grid", "catalog", new { arg1 = category.Url, arg2 = string.Empty, arg3 = string.Empty })">@category.Title</a>
+                        if (categoryIteration < Model.Product.Categories.Count)
+                        {
+                            @:&nbsp;|&nbsp;
+                        }
+                    }
+                </div>
+            }
+            <hr class="mb-3">
+            <div class="d-flex flex-wrap justify-content-between">
+                <div class="entry-share mt-2 mb-2">
+                    <span class="text-muted">@Resource.Share:</span>
+                    <div class="share-links">
+                        @*<a class="social-button shape-circle sb-instagram" href="#" data-toggle="tooltip" data-placement="top" title="Instagram"><i class="socicon-instagram"></i></a>*@
+                        <a class="social-button shape-circle sb-vk" href="@( "http://vk.com/share.php?url=" + HttpContext.Current.Request.Url)" data-toggle="tooltip" target="_blank" rel="nofollow" data-placement="top" title="Instagram"><i class="socicon-vkontakte"></i></a>
+                        <a class="social-button shape-circle sb-facebook" href="@( "http://www.facebook.com/sharer.php?u=" + HttpContext.Current.Request.Url)" target="_blank" rel="nofollow" data-toggle="tooltip" data-placement="top" title="Facebook"><i class="socicon-facebook"></i></a>
+                    </div>
+                </div>
+                <div class="sp-buttons mt-2 mb-2">
+                    @*<button class="btn btn-outline-secondary btn-sm btn-wishlist" data-toggle="tooltip" title="Whishlist"><i class="icon-heart"></i></button>*@
+                    @switch (Model.Product.Status)
+                    {
+                        case ECommerce.Domain.Model.EnumModel.ProductStatus.Available:
+                            <button class="btn btn-primary" data-toast data-toast-type="success" data-toast-position="topRight" data-toast-icon="icon-circle-check" data-toast-title="@Model.Product.Title" data-toast-message="@Resource.SuccessfullyAddedToCart" onclick="addToCartFromDetails(@Model.Product.ProductID, 1)"><i class="icon-bag" style="margin-top: -5px;"></i> @Resource.AddToCart</button>
+                            break;
+                        case ECommerce.Domain.Model.EnumModel.ProductStatus.NotAvailable:
+                            <button class="btn btn-outline-secondary" disabled>@Resource.NotAvailable</button>
+                            break;
+                        case ECommerce.Domain.Model.EnumModel.ProductStatus.Awaiting:
+                            <button class="btn btn-outline-primary" disabled>@Resource.Awaiting</button>
+                            break;
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row padding-top-3x mb-3">
+        <div class="col-lg-10 offset-lg-1">
+            <ul class="nav nav-tabs" role="tablist"><li class="nav-item"><a class="nav-link active" href="#reviews" data-toggle="tab" role="tab">@Resource.Reviews</a></li></ul>
+            <div class="tab-content"><div class="tab-pane fade show active" id="reviews" role="tabpanel"><div id="disqus_thread"></div><noscript>Пожалуйста, включите JavaScript, чтобы просмотреть <a href="https://disqus.com/?ref_noscript"> комментарии от Disqus.</a></noscript></div></div>
+        </div>
+    </div>
+</div>
+@section scripts
+{
+    <script id="dsq-count-scr" src="//localhost-w7omwwmtni.disqus.com/count.js" async></script>
+    <script>
+        (function () {
+            var d = document, s = d.createElement('script');
+            s.src = 'https://nitsak.disqus.com/embed.js';
+            s.setAttribute('data-timestamp', +new Date());
+            (d.head || d.body).appendChild(s);
+        })();
+    </script>
+}
+
+
+
+

@@ -1,0 +1,52 @@
+﻿@{
+    ViewBag.Title = Resource.ShippingAndPayment;
+    ViewBag.Keywords = Resource.Keywords;
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+@section meta{
+    <link rel="canonical" href="@(Resource.UrlSite + "/info/shipping-and-payment")" />
+    <meta property="og:image" content="http://nitsak.com.ua/img/social/nitsak-fb.png">
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="@ViewBag.Title">
+    @*<meta property="og:description" content="@ViewBag.Description" />*@
+    <meta name="twitter:image" content="http://nitsak.com.ua/img/social/nitsak-fb.png">
+    <meta name="twitter:title" content="@ViewBag.Title">
+    @*<meta name="twitter:description" content="@ViewBag.Description">*@
+}
+<div class="page-title">
+    <div class="container">
+        <div class="column"><h1>@Resource.ShippingAndPayment</h1></div>
+        <div class="column">
+            <ul class="breadcrumbs">
+                <li itemscope itemtype="http://data-vocabulary.org/Breadcrumb"><a itemprop="url" href="@Url.Action("grid", "catalog")"><span itemprop="title">@Resource.Catalog</span></a></li>
+                <li class="separator">&nbsp;</li>
+                <li itemscope itemtype="http://data-vocabulary.org/Breadcrumb"><a itemprop="url" href="@Url.Action("shipping-and-payment", "info")"><span itemprop="title">@Resource.ShippingAndPayment</span></a></li>
+            </ul>
+        </div>
+    </div>
+</div>
+<div class="container padding-bottom-2x mb-2">
+    <div class="row align-items-center padding-bottom-2x">
+        <div class="col-md-5 order-md-2"><img class="d-block w-270 m-auto" src="/img/about/delivery.jpg" alt="Delivery"></div>
+        <div class="col-md-7 order-md-1 text-md-left">
+            <div class="mt-30 hidden-md-up"></div>
+            <h2 class="text-md-left text-center">Досткавка</h2>
+            <p>Наш интернет-магазин <a class="gold-link" href="/">nitsak.com.ua</a> доставляет покупки по всей территории Украины с помощью почтовых служб <a class="gold-link" href="https://novaposhta.ua/" target="_blank" rel="nofollow">Новая почта</a> и <a class="gold-link" href="http://ukrposhta.ua/" target="_blank" rel="nofollow">Укрпочта</a>. @*Также мы предлагает услугу — самовывоз товара из <a class="gold-link" href="@Url.Action("contact", "info")">нашего розничного магазина</a> в городе Винница. Курьерская доставка по всей Украине осуществляется через Новую почту.*@</p>
+            <ul>
+                <li>Срок доставки Новой почтой <b>1-2</b> рабочих дня, стоимость - <b>35</b> грн.</li>
+                <li>Срок доставки Укрпочтой <b>3-5</b> рабочих дней, стоимость - <b>20</b> грн.</li>
+                @*<li>Срок курьерской доставки <b>1-2</b> рабочих дня, стоимость - <b>45</b> грн.</li>*@
+            </ul>
+            <h2 class="text-md-left text-center">Срок обработки заказа</h2>
+            <p>После оформления заказа наш менеджер обязательно свяжется с вами в течение получаса для подтверждения заказа. Мы высылаем заказы в течение <b>1-3</b> рабочих дней с момента заказа. Точную дату отправки укажет менеджер, когда свяжется с вами для подтверждения заказа. Учтите, что если при заказе выбран способ оплаты предоплата, то заказ должен быть полностью оплачен до отправки. Заказы по предоплате бронируются на <b>1</b> рабочий день до оплаты, если в течение этого времени оплата не поступила, бронь на заказ снимается.</p>
+            <h2 class="text-md-left text-center">Способы оплаты</h2>
+            <p><b>По предоплате:</b> Вы можете оплатить заказ на карту Приватбанка, реквизиты вышлет наш менеджер после подтверждения заказа. При оплате на карту, сумма за заказ должна быть зачислена полностью, a комиссию за перевод денег оплачивает покупатель.</p>
+            <p><b>Наложенным платежом:</b> Вы можете оплатить заказ при получении. При этом учтите, что необходимо будет оплатить комиссию почтовой службе за обратную пересылку денег</p>
+            <ul>
+                <li>Новая почта - <b>20</b> грн. + <b>2</b>% от суммы заказа</li>
+                <li>Укрпочта - <b>3</b>% от суммы заказа</li>
+            </ul>
+            <p>Также нужно внести предоплату в размере <b>70</b> грн. за доставку. Эти деньги списываются от стоимости общего заказа и в случае отказа от товара не возвращаются, а идут на компенсацию доставки его обратно.</p>
+        </div>
+    </div>
+</div>

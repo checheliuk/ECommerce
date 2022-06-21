@@ -1,0 +1,34 @@
+﻿@model ECommerce.Domain.Model.Product
+<div class="grid-item">
+    <div class="product-card">
+        @if (Model.Discount != null && Model.FakePrice > Model.Price){ <div class="product-badge text-danger"><b>@Model.Discount</b>% <b>@Resource.Discounts</b></div> }
+        @*<div class="rating-stars">
+            @if (Model.ProductRating > 0)
+            {
+                for (int star = 1; star < 6; star++)
+                {
+                    <i class="icon-star @(star <= (Model.ProductRating + 0.5m) ? "filled" : "")"></i>
+                }
+            }
+        </div>*@
+        <a class="product-thumb" href="@Url.Action("details", "catalog", new { arg1 = Model.Url, arg2 = Model.ProductID })"><img src="@Model.PathToTitlePhoto" title="@Model.Title" alt="@Model.Title"></a>
+        <h3 class="product-title"><a href="@Url.Action("details", "catalog", new { arg1 = Model.Url, arg2 = Model.ProductID })">@Model.Title</a></h3>
+        <h4 class="product-price"> @if (Model.FakePrice != null && Model.FakePrice > Model.Price) { <del>@Model.FakePrice @Resource.Currency</del> } @Model.Price @Resource.Currency</h4>
+        <div class="product-buttons">
+            @switch (Model.Status)
+            {
+             case ECommerce.Domain.Model.EnumModel.ProductStatus.Available:
+                <button class="btn btn-outline-primary btn-sm" data-toast data-toast-type="success" data-toast-position="topRight" data-toast-icon="icon-circle-check" data-toast-title="@Model.Title" data-toast-message="@Resource.SuccessfullyAddedToCart" onclick="addToCart(@Model.ProductID, 1, 1, 1)">@Resource.AddToCart</button>
+                break;
+             case ECommerce.Domain.Model.EnumModel.ProductStatus.NotAvailable:
+                <button class="btn btn-outline-secondary" disabled>@Resource.NotAvailable</button>
+                break;
+             case ECommerce.Domain.Model.EnumModel.ProductStatus.Awaiting:
+                <button class="btn btn-outline-primary" disabled>@Resource.Awaiting</button>
+                break;
+            }
+            <br />
+            <span class="available-product">@(Model.Status == ECommerce.Domain.Model.EnumModel.ProductStatus.Available ? Resource.AvailableProduct: "")</span>
+        </div>
+    </div>
+</div>

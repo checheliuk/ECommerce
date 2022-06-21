@@ -1,0 +1,71 @@
+﻿.page-not-found {
+    width: 100%;
+    max-width: 550px;
+}
+
+.gold-link {
+    text-decoration: none;
+    color: #dcbb71;
+}
+
+    .gold-link:hover {
+        color: #d5ac4f;
+        text-decoration:underline;
+        cursor:pointer;
+    }
+
+.available-product {
+    color: red;
+    color: red;
+    font-size: 12px;
+    font-weight: bold;
+    display: block;
+    margin-top: 7px;
+    height: 18px;
+    width: 100%;
+}
+
+.seo-menu {
+    width: 100%;
+    border-top: 1px solid #e1e7ec;
+    text-align: justify;
+}
+
+    .seo-menu .seo-menu-title {
+        color: #606975;
+        font-size: 14px;
+        font-weight: 500;
+        margin: 15px 0 10px 0;
+    }
+
+    .seo-menu h1, .seo-menu h2 {
+        font-weight: bold;
+        font-size: 13px;
+        white-space: normal;
+        color: #222;
+        margin: 10px 0;
+    }
+
+    .seo-menu p {
+        margin: 4px 0;
+        font-size: 11px;
+        line-height: 15px;
+    }
+
+.widget-title-stoke {
+    font-size: 14px;
+    text-transform: uppercase;
+    font-weight: bold;
+}
+
+.text-stoke {
+    max-width: 395px;
+    text-align: justify;
+    color: #fff !important;
+    font-size: 13px;
+}
+
+#gmap_canvas {
+    height: 400px;
+    width: 100%;
+}

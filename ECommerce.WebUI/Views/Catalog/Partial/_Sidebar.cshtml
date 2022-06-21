@@ -1,0 +1,20 @@
+﻿@model ECommerce.Domain.ViewModel.HomeCatalogViewModels
+<div class="col-xl-3 col-lg-4 order-lg-1">
+    <aside class="sidebar">
+        <div class="padding-top-2x hidden-lg-up"></div>
+        <section class="widget widget-categories">
+            <h3 class="widget-title">@Resource.Categories</h3>
+            <ul>
+                <li><a href="@Url.Action(Model.View, "catalog", new { arg1 = "all", arg2 = "all", arg3 = "all", arg4 = Model.Order, arg5 = 1 })" class="@((String.IsNullOrEmpty(Model.Type) || Model.Type == "all") && (String.IsNullOrEmpty(Model.Category) || Model.Category == "all") ? "active-category-item" : "")"><b>Все товары</b></a></li>
+                <li><a href="@Url.Action(Model.View, "catalog", new { arg1 = "woman", arg2 = "nizhneye-bele", arg3 = "komplekty", arg4 = Model.Order, arg5 = 1 })" class="@(Model.Type == "nizhneye-bele" && Model.Category == "komplekty" ? "active-category-item" : "")"><b>Комплекты</b></a></li>
+                <li><a href="@Url.Action(Model.View, "catalog", new { arg1 = "woman", arg2 = "nizhneye-bele", arg3 = "byustgaltery-push-up", arg4 = Model.Order, arg5 = 1 })" class="@(Model.Type == "nizhneye-bele" && Model.Category == "byustgaltery-push-up" ? "active-category-item" : "")"><b>Бюстгальтеры</b></a></li>
+                <li><a href="@Url.Action(Model.View, "catalog", new { arg1 = "woman", arg2 = "nizhneye-bele", arg3 = "trusy", arg4 = Model.Order, arg5 = 1 })" class="@(Model.Type == "nizhneye-bele" && Model.Category == "trusy" ? "active-category-item" : "")"><b>Трусы</b></a></li>
+                <li><a href="@Url.Action(Model.View, "catalog", new { arg1 = "woman", arg2 = "topy", arg3 = "all", arg4 = Model.Order, arg5 = 1 })" class="@(Model.Type == "topy" ? "active-category-item" : "")"><b>Топы</b></a></li>
+                <li><a href="@Url.Action(Model.View, "catalog", new { arg1 = "woman", arg2 = "pizhami-s-shortami", arg3 = "all", arg4 = Model.Order, arg5 = 1 })" class="@(Model.Type == "pizhami-s-shortami" ? "active-category-item" : "")"><b>Пижамы с шортами</b></a></li>
+                <li><a href="@Url.Action(Model.View, "catalog", new { arg1 = "woman", arg2 = "kolgoty", arg3 = "all", arg4 = Model.Order, arg5 = 1 })" class="@(Model.Type == "kolgoty" ? "active-category-item" : "")"><b>Колготы</b></a></li>
+                <li><a href="@Url.Action(Model.View, "catalog", new { arg1 = "woman", arg2 = "nosochki", arg3 = "all", arg4 = Model.Order, arg5 = 1 })" class="@(Model.Type == "nosochki" ? "active-category-item" : "")"><b>Носочки</b></a></li>
+                <li><a href="@Url.Action("podarochnii-sertifikat", "info")"><b>@Resource.Sertifikaty</b></a></li>
+            </ul>
+        </section>
+    </aside>
+</div>

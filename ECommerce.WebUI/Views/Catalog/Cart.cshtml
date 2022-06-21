@@ -1,0 +1,121 @@
+﻿@model ECommerce.Domain.Data.Cart
+@{
+    ViewBag.Title = "Корзина покупок";
+    ViewBag.Keywords = Resource.Keywords;
+    var shippingViewModel = Model.GetShipping();
+}
+@section meta{
+    <link rel="canonical" href="@(Resource.UrlSite + "/catalog/cart")" />
+    <meta property="og:image" content="http://nitsak.com.ua/img/social/nitsak-fb.png">
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="@ViewBag.Title">
+    @*<meta property="og:description" content="@ViewBag.Description" />*@
+    <meta name="twitter:image" content="http://nitsak.com.ua/img/social/nitsak-fb.png">
+    <meta name="twitter:title" content="@ViewBag.Title">
+    @*<meta name="twitter:description" content="@ViewBag.Description">*@
+}
+<div class="page-title">
+    <div class="container">
+        <div class="column"><h1>@Resource.Cart</h1></div>
+        <div class="column">
+            <ul class="breadcrumbs">
+                <li itemscope itemtype="http://data-vocabulary.org/Breadcrumb"><a itemprop="url" href="@Url.Action("grid", "catalog")"><span itemprop="title">@Resource.Catalog</span></a></li>
+                <li class="separator">&nbsp;</li>
+                <li itemscope itemtype="http://data-vocabulary.org/Breadcrumb"><a itemprop="url" href="@Url.Action("cart", "catalog")"><span itemprop="title">@Resource.Cart</span></a></li>
+            </ul>
+        </div>
+    </div>
+</div>
+<div class="container padding-bottom-3x mb-1 container-min-height">
+    @if (shippingViewModel.products.Count() > 0)
+    {
+        <div class="table-responsive shopping-cart">
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>@Resource.ProductName</th>
+                        @*<th class="text-center">Quantity</th>*@
+                        <th class="text-center">@Resource.Price</th>
+                        <th class="text-center">@Resource.Discount</th>
+                        <th class="text-center" style="width: 176px;"><a class="btn btn-sm btn-outline-primary" href="#" onclick="removeAllFromCart()">@Resource.ClearCart</a></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in shippingViewModel.products)
+                    {
+                        <tr>
+                            <td>
+                                <div class="product-item">
+                                    <a class="product-thumb" href="@Url.Action("details", "catalog", new { arg1 = item.Product.Url, arg2 = item.Product.ProductID })"><img src="@item.Product.PathToTitlePhoto" alt="@item.Product.Title" title="@item.Product.Title"></a>
+                                    <div class="product-info">
+                                        <h4 class="product-title"><a href="@Url.Action("details", "catalog", new { arg1 = item.Product.Url, arg2 = item.Product.ProductID })">@item.Product.Title</a></h4>
+                                        <span><em>@Resource.Size: </em>@item.Size.Title</span>
+                                        <span><em>@Resource.Color: </em>@item.Color.Title</span>
+                                    </div>
+                                </div>
+                            </td>
+                            @*<td class="text-center">
+                                    <div class="count-input">
+                                        <select class="form-control">
+                                            <option>1</option>
+                                            <option>2</option>
+                                            <option>3</option>
+                                            <option>4</option>
+                                            <option>5</option>
+                                        </select>
+                                    </div>
+                                </td>*@
+                            <td class="text-center text-lg text-medium">
+                                @if (item.Quantity > 1)
+                                {
+                                    @(item.Quantity + " x")
+                                }
+                                @item.Product.Price @Resource.Currency
+                            </td>
+                            <td class="text-center text-lg text-medium">
+                                @if (item.Product.FakePrice != null && item.Product.FakePrice > item.Product.Price)
+                                {
+                                    if (item.Quantity > 1)
+                                    {
+                                        @(item.Quantity + " x ")
+                                    }
+                                    @((item.Product.FakePrice - item.Product.Price) + " " + Resource.Currency)
+                                }
+                                else
+                                {
+                                    @:-
+                                }
+                            </td>
+                            <td class="text-center">
+                                <a class="remove-from-cart" href="#" data-toggle="tooltip" title="@Resource.Remove"><i class="icon-cross" onclick="removeFromCart(@item.ProductShippingID)"></i></a>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+        <div class="shopping-cart-footer">
+            @*<div class="column">
+                    <form class="coupon-form" method="post">
+                        <input class="form-control form-control-sm" type="text" placeholder="Coupon code" required>
+                        <button class="btn btn-outline-primary btn-sm" type="submit">Apply Coupon</button>
+                    </form>
+                </div>*@
+            <div class="column text-lg">@Resource.Total: <span class="text-medium">@Model.ComputeTotalValue() @Resource.Currency</span></div>
+        </div>
+    }
+    else
+    {
+        <div class="shopping-cart"><h5 class="text-center">@Resource.EmptyCart</h5></div>
+    }
+    <div class="shopping-cart-footer">
+        <div class="column"><a class="btn btn-outline-secondary" href="@Url.Action("grid", "catalog")"><i class="icon-arrow-left"></i>&nbsp;@Resource.BackToShopping</a></div>
+        @if (shippingViewModel.products.Count() > 0)
+        {
+            <div class="column">
+                @*<a class="btn btn-primary" href="#" data-toast data-toast-type="success" data-toast-position="topRight" data-toast-icon="icon-circle-check" data-toast-title="Your cart" data-toast-message="is updated successfully!">@Resource.UpdateCart</a>*@
+                <a class="btn btn-primary" href="@Url.Action("checkout", "catalog")">@Resource.Checkout</a>
+            </div>
+        }
+    </div>
+</div>

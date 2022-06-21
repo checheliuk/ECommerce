@@ -1,0 +1,258 @@
+﻿@model ECommerce.Domain.ViewModel.AdminShippingViewModel
+@using ECommerce.Domain.Model
+@using ECommerce.WebUI.Helpers
+@{
+    ViewBag.Title = "Order";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+<br />
+
+@if (Model.IsSavedSuccess)
+{
+    <div class="alert alert-success alert-dismissible fade show" role="alert">
+        @Resource.Saved
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+}
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+    @Html.ValidationSummary(true)
+    @Html.HiddenFor(model => model.shipping.ShippingDetailsID)
+
+
+    <div class="form-group row">
+        <div class="col-2">
+            <b>@Resource.FirstName</b>
+        </div>
+        <div class="col-10">
+            @Model.shipping.FirstName
+        </div>
+    </div>
+
+    <div class="form-group row">
+        <div class="col-2">
+            <b>@Resource.LastName</b>
+        </div>
+        <div class="col-10">
+            @Model.shipping.LastName
+        </div>
+    </div>
+
+    <div class="form-group row">
+        <div class="col-2">
+            <b>@Resource.Phone</b>
+        </div>
+        <div class="col-10">
+            @Model.shipping.Phone
+        </div>
+    </div>
+
+    <div class="form-group row">
+        <div class="col-2">
+            <b>@Resource.Products</b>
+        </div>
+        <div class="col-10">
+            @foreach (var item in Model.products)
+            {
+                <div class="row">
+                    <div class="col-2">
+                        <a class="dropdown-product-thumb" href="@Url.Action("details", "catalog", new { arg1 = item.Product.Url, arg2 = item.Product.ProductID })">
+                            <img src="@item.Product.PathToTitlePhoto" alt="@item.Product.Title" width="100">
+                        </a>
+                    </div>
+
+                    <div class="col-10">
+                        <a class="dropdown-product-title" href="@Url.Action("details", "catalog", new { arg1 = item.Product.Url, arg2 = item.Product.ProductID })">
+                            @item.Product.Title
+                        </a>
+                        <br />
+                        <span>@Resource.Quantity: @item.Quantity</span>
+                        <br />
+                        <span>@Resource.Size: @item.Size.Title</span>
+                        <br />
+                        <span>@Resource.Color: @item.Color.Title</span>
+                    </div>
+                </div>
+            }
+        </div>
+    </div>
+
+
+    <div class="form-group row">
+        <div class="col-2">
+            <b>@Resource.PymentMethod</b>
+        </div>
+        <div class="col-10">
+            @(HelperCommon.GetDescription((EnumModel.TypePayment)Model.shipping.Payment))
+        </div>
+    </div>
+
+    <div class="form-group row">
+        <div class="col-2">
+            <b>@Resource.DeliveryService</b>
+        </div>
+        <div class="col-10">
+            @(HelperCommon.GetDescription((EnumModel.DeliveryService)Model.shipping.Delivery))
+        </div>
+    </div>
+
+    <div class="form-group row">
+        <div class="col-2">
+            <b>@Resource.Area</b>
+        </div>
+        <div class="col-10">
+            @Model.shipping.AddressArea.Description
+        </div>
+    </div>
+
+    <div class="form-group row">
+        <div class="col-2">
+            <b>@Resource.Town</b>
+        </div>
+        <div class="col-10">
+            @Model.shipping.Town
+        </div>
+    </div>
+
+    if (Model.shipping.Delivery == EnumModel.DeliveryService.UkrPoshta)
+    {
+        <div class="form-group row">
+            <div class="col-2">
+                <b>@Resource.ZipCode</b>
+            </div>
+            <div class="col-10">
+                @Model.shipping.ZipCode
+            </div>
+        </div>
+
+        <div class="form-group row">
+            <div class="col-2">
+                <b>@Resource.Address</b>
+            </div>
+            <div class="col-10">
+                @Model.shipping.Address
+            </div>
+        </div>
+    }
+
+    if (Model.shipping.Delivery == EnumModel.DeliveryService.NovaPoshta)
+    {
+        <div class="form-group row">
+            <div class="col-4">
+                <b>@Resource.WarehousesNovaPoshta</b>
+            </div>
+            <div class="col-8">
+                @Model.shipping.Warehouses
+            </div>
+        </div>
+    }
+
+    <div class="form-group row">
+        <div class="col-2">
+            <b>@Resource.Total</b>
+        </div>
+        <div class="col-10">
+            @Model.shipping.Total @Resource.Currency
+
+            @if (Model.shipping.Payment == EnumModel.TypePayment.CashOnDelivery)
+            {
+                <br />
+                @(Model.shipping.Total.ToString() + " - " + ECommerce.Domain.ConstantsData.SiteConstants.CashOnDeliveryPrice + " = " + (Model.shipping.Total - ECommerce.Domain.ConstantsData.SiteConstants.CashOnDeliveryPrice) + " " + Resource.Currency)
+            }
+        </div>
+    </div>
+    <div class="form-group row">
+        <div class="col-2">
+            <b>@Resource.DeliveryPrice</b>
+        </div>
+        <div class="col-10">
+            @if (Model.shipping.Delivery == EnumModel.DeliveryService.UkrPoshta)
+            {
+                if (Model.shipping.Payment == EnumModel.TypePayment.CashOnDelivery)
+                {
+                    @(Math.Round(Model.shipping.Total / 100 * ECommerce.Domain.ConstantsData.SiteConstants.UkrPoshtaInterest + ECommerce.Domain.ConstantsData.SiteConstants.UkrPoshtaBase + ECommerce.Domain.ConstantsData.SiteConstants.UkrPoshtaDelivery, 2))
+                }
+
+                if (Model.shipping.Payment == EnumModel.TypePayment.Prepayment)
+                {
+                    @ECommerce.Domain.ConstantsData.SiteConstants.UkrPoshtaDelivery
+                }
+            }
+
+            @if (Model.shipping.Delivery == EnumModel.DeliveryService.NovaPoshta)
+            {
+                if (Model.shipping.Payment == EnumModel.TypePayment.CashOnDelivery)
+                {
+                    @(Math.Round(Model.shipping.Total / 100 * ECommerce.Domain.ConstantsData.SiteConstants.NovaPostaInterest + ECommerce.Domain.ConstantsData.SiteConstants.NovaPostaBase + ECommerce.Domain.ConstantsData.SiteConstants.NovaPostaDelivery, 2))
+                }
+
+                if (Model.shipping.Payment == EnumModel.TypePayment.Prepayment)
+                {
+                    @ECommerce.Domain.ConstantsData.SiteConstants.NovaPostaDelivery
+                }
+            }
+            @Resource.Currency
+        </div>
+    </div>
+
+
+    <div class="form-group row">
+        <div class="col-sm-2">
+            <b>@Resource.Status</b>
+        </div>
+        <div class="col-sm-10">
+            <div class="form-check">
+                @Html.RadioButtonFor(model => model.shipping.Status, EnumModel.ShippingStatus.Checkout, new { id = EnumModel.ShippingStatus.Checkout })
+                <label for="@EnumModel.ShippingStatus.Checkout">@(HelperCommon.GetDescription((EnumModel.ShippingStatus)EnumModel.ShippingStatus.Checkout))</label>
+            </div>
+            <div class="form-check">
+                @Html.RadioButtonFor(model => model.shipping.Status, EnumModel.ShippingStatus.Confirm, new { id = EnumModel.ShippingStatus.Confirm })
+                <label for="@EnumModel.ShippingStatus.Confirm">@(HelperCommon.GetDescription((EnumModel.ShippingStatus)EnumModel.ShippingStatus.Confirm))</label>
+            </div>
+            <div class="form-check">
+                @Html.RadioButtonFor(model => model.shipping.Status, EnumModel.ShippingStatus.Sent, new { id = EnumModel.ShippingStatus.Sent })
+                <label for="@EnumModel.ShippingStatus.Sent">@(HelperCommon.GetDescription((EnumModel.ShippingStatus)EnumModel.ShippingStatus.Sent))</label>
+            </div>
+            <div class="form-check">
+                @Html.RadioButtonFor(model => model.shipping.Status, EnumModel.ShippingStatus.Return, new { id = EnumModel.ShippingStatus.Return })
+                <label for="@EnumModel.ShippingStatus.Return">@(HelperCommon.GetDescription((EnumModel.ShippingStatus)EnumModel.ShippingStatus.Return))</label>
+            </div>
+            <div class="form-check">
+                @Html.RadioButtonFor(model => model.shipping.Status, EnumModel.ShippingStatus.Cancel, new { id = EnumModel.ShippingStatus.Cancel })
+                <label for="@EnumModel.ShippingStatus.Cancel">@(HelperCommon.GetDescription((EnumModel.ShippingStatus)EnumModel.ShippingStatus.Cancel))</label>
+            </div>
+            <div class="form-check">
+                @Html.RadioButtonFor(model => model.shipping.Status, EnumModel.ShippingStatus.Done, new { id = EnumModel.ShippingStatus.Done })
+                <label for="@EnumModel.ShippingStatus.Done">@(HelperCommon.GetDescription((EnumModel.ShippingStatus)EnumModel.ShippingStatus.Done))</label>
+            </div>
+        </div>
+    </div>
+
+    <div class="form-group row">
+        <div class="col-sm-2">
+            <b>@Resource.Number</b>
+        </div>
+        <div class="col-sm-10">
+            @Html.EditorFor(model => model.shipping.Number, new { htmlAttributes = new { @class = "form-control" } })
+        </div>
+    </div>
+
+    <div class="form-group row">
+        <div class="col-sm-2">
+            <b>@Resource.Note</b>
+        </div>
+        <div class="col-sm-10">
+            @Html.EditorFor(model => model.shipping.Note, new { htmlAttributes = new { @class = "form-control" } })
+        </div>
+    </div>
+
+    <hr />
+    <button type="submit" class="btn btn-primary mb-2">@Resource.Save</button>
+}
+
+

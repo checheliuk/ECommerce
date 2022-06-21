@@ -1,0 +1,29 @@
+﻿@model ECommerce.Domain.Model.Product
+<div class="product-card product-list">
+    <a class="product-thumb" href="@Url.Action("details", "catalog", new { arg1 = Model.Url, arg2 = Model.ProductID })">
+        @if (Model.Discount != null && Model.FakePrice > Model.Price){ <div class="product-badge text-danger"><b>@Model.Discount</b>% <b>@Resource.Discounts</b></div> }
+        <img src="@Model.PathToTitlePhoto" title="@Model.Title" alt="@Model.Title">
+    </a>
+    <div class="product-info">
+        <h3 class="product-title"><a href="@Url.Action("details", "catalog", new { arg1 = Model.Url, arg2 = Model.ProductID })">@Model.Title</a></h3>
+        <h4 class="product-price">
+            @if (Model.FakePrice != null && Model.FakePrice > Model.Price){<del>@Model.FakePrice @Resource.Currency</del>} @Model.Price @Resource.Currency
+        </h4>
+        <p class="hidden-xs-down">@Html.Raw(Model.Description)</p>
+        <div class="product-buttons">
+            @*<button class="btn btn-outline-secondary btn-sm btn-wishlist" data-toggle="tooltip" title="Whishlist"><i class="icon-heart"></i></button>*@
+            @switch (Model.Status)
+            {
+                case ECommerce.Domain.Model.EnumModel.ProductStatus.Available:
+                    <button class="btn btn-outline-primary btn-sm" data-toast data-toast-type="success" data-toast-position="topRight" data-toast-icon="icon-circle-check" data-toast-title="@Model.Title" data-toast-message="@Resource.SuccessfullyAddedToCart" onclick="addToCart(@Model.ProductID, 1, 1, 1)">@Resource.AddToCart</button>
+                    break;
+                case ECommerce.Domain.Model.EnumModel.ProductStatus.NotAvailable:
+                    <button class="btn btn-outline-secondary" disabled>@Resource.NotAvailable</button>
+                    break;
+                case ECommerce.Domain.Model.EnumModel.ProductStatus.Awaiting:
+                    <button class="btn btn-outline-primary" disabled>@Resource.Awaiting</button>
+                    break;
+            }
+        </div>
+    </div>
+</div>

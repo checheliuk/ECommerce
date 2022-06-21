@@ -1,0 +1,43 @@
+﻿@{
+    ViewBag.Title = Resource.Sertifikaty;
+    ViewBag.Keywords = Resource.Keywords;
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+@section meta{
+    <link rel="canonical" href="@(Resource.UrlSite + "/info/podarochnye-sertifikaty")" />
+    <meta property="og:image" content="http://nitsak.com.ua/img/social/nitsak-fb.png">
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="@ViewBag.Title">
+    @*<meta property="og:description" content="@ViewBag.Description" />*@
+    <meta name="twitter:image" content="http://nitsak.com.ua/img/social/nitsak-fb.png">
+    <meta name="twitter:title" content="@ViewBag.Title">
+    @*<meta name="twitter:description" content="@ViewBag.Description">*@
+}
+<div class="page-title">
+    <div class="container">
+        <div class="column"><h1>@Resource.Sertifikaty</h1></div>
+        <div class="column">
+            <ul class="breadcrumbs">
+                <li itemscope itemtype="http://data-vocabulary.org/Breadcrumb"><a itemprop="url" href="@Url.Action("grid", "catalog")"><span itemprop="title">@Resource.Catalog</span></a></li>
+                <li class="separator">&nbsp;</li>
+                <li itemscope itemtype="http://data-vocabulary.org/Breadcrumb"><a itemprop="url" href="@Url.Action("podarochnii-sertifikat", "info")"><span itemprop="title">@Resource.Sertifikaty</span></a></li>
+            </ul>
+        </div>
+    </div>
+</div>
+<div class="container padding-bottom-2x mb-2">
+    <div class="row align-items-center padding-bottom-2x">
+        <div class="col-md-5"><img class="d-block m-auto" src="/img/sertifikat.png" alt="@Resource.Sertifikaty" title="@Resource.Sertifikaty"></div>
+        <div class="col-md-7">
+            <div class="mt-30 hidden-md-up"></div>
+            <h2 class="text-md-left text-center">Заказать подарочный сертификат</h2>
+            <p>Красивое белье – всегда желанный подарок для красивой женщины. Выбирая белье на свой вкус, очень легко ошибиться. И вместо радости разочаровать. Проще доверить ей выбор самой, и подарить внимание, которое не забудется. Подарочный сертификат – это способ преподнести идеальный подарок, который точно понравится.</p>
+            <p>Наш магазин идет навстречу пожеланиям наших клиентов и предлагает вашему вниманию подарочные сертификаты на суммы указанною Вами.</p>
+            <h2 class="text-md-left text-center">Условия  использования</h2>
+            <p>Подарочный сертификат позволяет приобрести в нашем розничным магазине <a class="gold-link" href="@Url.Action("contact", "info")">nitsak.com.ua</a> любые товары на сумму указанною на нем.</p>
+            <p>Если общая сумма заказа превышает номинальную стоимость сертификата, получатель сертификата обязуется доплатить разницу. В случае, если сумма заказа меньше номинальной стоимости сертификата, разница в суммах не компенсируется.</p>
+            <p>Данный сертификат может быть использован только один раз, независимо от суммы заказа.</p>
+            <p>Cертификат действителен в течение года с момента оформления сертификата. Дата окончания срока действия указана в сертификате. После окончания срока действия подарочного сертификата, который не был использован его Владельцем, Владелец теряет право на получение услуг, подарочный сертификат теряет свою действительность, а денежные средства Владельцу не возвращаются.</p>
+        </div>
+    </div>
+</div>

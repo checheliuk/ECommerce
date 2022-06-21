@@ -1,0 +1,37 @@
+﻿@{
+    ViewBag.Title = "Спасибо за ваш заказ";
+}
+@section meta{
+    <link rel="canonical" href="@(Resource.UrlSite + "/catalog/message")" />
+    <meta property="og:image" content="http://nitsak.com.ua/img/social/nitsak-fb.png">
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="@ViewBag.Title">
+    @*<meta property="og:description" content="@ViewBag.Description" />*@
+    <meta name="twitter:image" content="http://nitsak.com.ua/img/social/nitsak-fb.png">
+    <meta name="twitter:title" content="@ViewBag.Title">
+    @*<meta name="twitter:description" content="@ViewBag.Description">*@
+}
+<div class="page-title">
+    <div class="container">
+        <div class="column"><h1>@Resource.CheckoutOrder</h1></div>
+        <div class="column">
+            <ul class="breadcrumbs">
+                <li itemscope itemtype="http://data-vocabulary.org/Breadcrumb"><a itemprop="url" href="@Url.Action("grid", "catalog")"><span itemprop="title">@Resource.Catalog</span></a></li>
+                <li class="separator">&nbsp;</li>
+                <li itemscope itemtype="http://data-vocabulary.org/Breadcrumb"><a itemprop="url" href="@Url.Action("message", "catalog")"><span itemprop="title">@Resource.CheckoutOrder</span></a></li>
+            </ul>
+        </div>
+    </div>
+</div>
+<div class="container padding-bottom-3x mb-2 container-min-height">
+    <div class="card text-center">
+        <div class="card-block padding-top-2x">
+            <h3 class="card-title">Спасибо за ваш заказ!</h3>
+            <p class="card-text">В ближайшее время мы свяжемся с Вами для подтверждения заказа.</p>
+            <div class="padding-top-1x padding-bottom-1x"><a class="btn btn-outline-secondary" href="@Url.Action("grid", "catalog")">@Resource.BackToShopping</a></div>
+        </div>
+    </div>
+</div>
+
+
+

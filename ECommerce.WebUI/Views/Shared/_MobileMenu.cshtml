@@ -1,0 +1,26 @@
+﻿<div class="offcanvas-container" id="mobile-menu">
+    <div class="offcanvas-header"><h3 class="offcanvas-title"><b>@Resource.Menu</b></h3></div>
+    <nav class="offcanvas-menu">
+        <ul class="menu">
+            <li class="has-children">
+                <span><a href="/"><span><b>@Resource.Catalog</b></span></a><span class="sub-menu-toggle"></span></span>
+                <ul class="offcanvas-submenu">
+                    <li class="has-children">
+                        <span><a href="@Url.Action("grid", "catalog", new { arg1 = "woman", arg2 = "nizhneye-bele", arg3 = "komplekty" })"><span><b>Комплекты</b></span></a></span>
+                        <span><a href="@Url.Action("grid", "catalog", new { arg1 = "woman", arg2 = "nizhneye-bele", arg3 = "byustgaltery-push-up" })"><span><b>Бюстгальтеры</b></span></a></span>
+                        <span><a href="@Url.Action("grid", "catalog", new { arg1 = "woman", arg2 = "nizhneye-bele", arg3 = "trusy" })"><span><b>Трусы</b></span></a></span>
+                        <span><a href="@Url.Action("grid", "catalog", new { arg1 = "woman", arg2 = "topy", arg3 = string.Empty })"><span><b>Топы</b></span></a></span>
+                        <span><a href="@Url.Action("grid", "catalog", new { arg1 = "woman", arg2 = "pizhami-s-shortami", arg3 = string.Empty })"><span><b>Пижамы с шортами</b></span></a></span>
+                        <span><a href="@Url.Action("grid", "catalog", new { arg1 = "woman", arg2 = "kolgoty", arg3 = string.Empty })"><span><b>Колготы</b></span></a></span>
+                        <span><a href="@Url.Action("grid", "catalog", new { arg1 = "woman", arg2 = "nosochki", arg3 = string.Empty })"><span><b>Носочки</b></span></a></span>
+                    </li>
+                </ul>
+            </li>
+            <li><span><a href="@Url.Action("podarochnii-sertifikat", "info")"><b>@Resource.Sertifikaty</b></a></span></li>
+            <li><span><a href="@Url.Action("about", "info")"><span><b>@Resource.AboutUs</b></span></a></span></li>
+            <li><span><a href="@Url.Action("shipping-and-payment", "info")"><span><b>@Resource.ShippingAndPayment</b></span></a></span></li>
+            <li><span><a href="@Url.Action("reviews", "info")"><span><b>@Resource.Reviews</b></span></a></span></li>
+            <li><span><a href="@Url.Action("contact", "info")"><span><b>@Resource.Contact</b></span></a></span></li>
+        </ul>
+    </nav>
+</div>

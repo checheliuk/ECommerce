@@ -1,0 +1,35 @@
+﻿<header class="navbar navbar-sticky">
+    @*<form class="site-search" method="get">
+        <input type="text" name="site_search" placeholder="Type to search...">
+        <div class="search-tools"><span class="clear-search">Clear</span><span class="close-search"><i class="icon-cross"></i></span></div>
+    </form>*@
+    <div class="site-branding">
+        <div class="inner">
+            <a class="offcanvas-toggle cats-toggle" href="#shop-categories" data-toggle="offcanvas"></a>
+            <a class="offcanvas-toggle menu-toggle" href="#mobile-menu" data-toggle="offcanvas"></a>
+            <a class="site-logo" href="/"><img src="~/Img/logo/logo.png" alt="Nitsak" title="Nitsak"></a>
+        </div>
+    </div>
+    <nav class="site-menu">
+        <ul>
+            <li>
+                <a href="/"><span><b>@Resource.Catalog</b></span></a>
+                <ul class="sub-menu">
+                    <li><a href="@Url.Action("grid", "catalog", new { arg1 = "woman", arg2 = "nizhneye-bele", arg3 = "komplekty" })"><b>Комплекты</b></a></li>
+                    <li><a href="@Url.Action("grid", "catalog", new { arg1 = "woman", arg2 = "nizhneye-bele", arg3 = "byustgaltery-push-up" })"><b>Бюстгальтеры</b></a></li>
+                    <li><a href="@Url.Action("grid", "catalog", new { arg1 = "woman", arg2 = "nizhneye-bele",  arg3 = "trusy" })"><b>Трусы</b></a></li>
+                    <li><a href="@Url.Action("grid", "catalog", new { arg1 = "woman", arg2 = "topy",  arg3 = string.Empty })"><b>Топы</b></a></li>
+                    <li><a href="@Url.Action("grid", "catalog", new { arg1 = "woman", arg2 = "pizhami-s-shortami",  arg3 = string.Empty })"><b>Пижамы с шортами</b></a></li>
+                    <li><a href="@Url.Action("grid", "catalog", new { arg1 = "woman", arg2 = "kolgoty",  arg3 = string.Empty })"><b>Колготы</b></a></li>
+                    <li><a href="@Url.Action("grid", "catalog", new { arg1 = "woman", arg2 = "nosochki",  arg3 = string.Empty })"><b>Носочки</b></a></li>
+                    <li><a href="@Url.Action("podarochnii-sertifikat", "info")"><b>@Resource.Sertifikaty</b></a></li>
+                </ul>
+            </li>
+            <li><a href="@Url.Action("about", "info")"><span><b>@Resource.AboutUs</b></span></a></li>
+            <li><a href="@Url.Action("shipping-and-payment", "info")"><span><b>@Resource.ShippingAndPayment</b></span></a></li>
+            <li><a href="@Url.Action("reviews", "info")"><span><b>@Resource.Reviews</b></span></a></li>
+            <li><a href="@Url.Action("contact", "info")"><span><b>@Resource.Contact</b></span></a></li>
+        </ul>
+    </nav>
+    <div class="toolbar"><div class="inner"><div class="tools">@{ Html.RenderAction("Summary", "Catalog"); }</div></div></div>
+</header>

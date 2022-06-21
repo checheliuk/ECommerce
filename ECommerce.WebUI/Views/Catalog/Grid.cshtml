@@ -1,0 +1,137 @@
+﻿@model ECommerce.Domain.ViewModel.HomeCatalogViewModels
+@{
+    ViewBag.Title = String.IsNullOrEmpty(Model.SeoTitle) ? "Интернет-магазин женского нижнего белья | Украина" : Model.SeoTitle;
+    ViewBag.Description = String.IsNullOrEmpty(Model.SeoDescription) ? "Интернет-магазин нижнего белья Nitsak.com.ua ✓ Большой выбор нижнего белья по выгодным ценам с доставкой по Украине" : Model.SeoDescription + " ✓ Звоните по ☎: 063 825-1498. $ лучшие цены, ✈ быстрая доставка, ☑ гарантия!";
+    ViewBag.Keywords = Resource.Keywords;
+    var path = Model.Type.ToLower() != "all" ? "/" + Model.Sex + "/" + Model.Type + (Model.Category.ToLower() != "all" ? "/" + Model.Category : "") : String.Empty;
+    var url = Resource.UrlSite + "/catalog/grid";
+}
+@section meta{
+    <meta name="twitter:image" content="http://nitsak.com.ua/img/social/nitsak-fb.png">
+    <meta name="twitter:title" content="@ViewBag.Title">
+    <meta name="twitter:description" content="@ViewBag.Description">
+    <meta property="og:image" content="http://nitsak.com.ua/img/social/nitsak-fb.png">
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="@ViewBag.Title">
+    <meta property="og:description" content="@ViewBag.Description" />
+    <link rel="canonical" href="@(url + path)" />
+}
+<div class="page-title">
+    <div class="container">
+        <div class="column" itemscope itemtype="http://schema.org/Product">
+            <h4 itemprop="Name">@Model.Title</h4>
+            <div itemtype="http://schema.org/AggregateOffer" itemscope="" itemprop="offers">
+                <meta content="@Model.Count" itemprop="offerCount"> 
+                <meta content="@Model.HighPrice" itemprop="highPrice">
+                <meta content="@Model.LowPrice" itemprop="lowPrice"> 
+                <meta content="UAH" itemprop="priceCurrency">
+            </div>
+        </div>
+        <div class="column">
+            <ul class="breadcrumbs">
+                <li itemscope itemtype="http://data-vocabulary.org/Breadcrumb"><a href="@Url.Action(Model.View, "catalog", new { arg1 = "all", arg2 = "all", arg3 = "all", arg4 = Model.Order, arg5 = 1 })" itemprop="url"><span itemprop="title">@Resource.Catalog</span></a></li>
+                @if (!String.IsNullOrEmpty(path) && !path.Contains("/catalog/grid/all/all/all/"))
+                {
+                    <li class="separator">&nbsp;</li>
+                    <li itemscope itemtype="http://data-vocabulary.org/Breadcrumb"><a href="@Url.Action(Model.View, "catalog", new { arg1 = Model.Sex, arg2 = Model.Type, arg3 = Model.Category, arg4 = Model.Order, arg5 = 1 })" itemprop="url"><span itemprop="title">@Model.Title</span></a></li>
+                }
+            </ul>
+        </div>
+    </div>
+</div>
+<div class="container padding-bottom-3x mb-1">
+    <div class="row">
+        <div class="col-xl-9 col-lg-8 order-lg-2">
+            <div class="shop-toolbar padding-bottom-1x mb-2">
+                <div class="column">
+                    <div class="shop-sorting">
+                        <label for="sorting">@Resource.SortBy</label>
+                        <select class="form-control" id="sorting" onchange="location = this.value;">
+                            <option value="@Url.Action(Model.View, "catalog", new { arg1 = Model.Sex, arg2 = Model.Type, arg3 = Model.Category, arg4 = "popularity", arg5 = 1 })" @(Model.Order == "popularity" ? "selected" : "")>@Resource.Popularity</option>
+                            <option value="@Url.Action(Model.View, "catalog", new { arg1 = Model.Sex, arg2 = Model.Type, arg3 = Model.Category, arg4 = "lowtohigh", arg5 = 1 })" @(Model.Order == "lowtohigh" ? "selected" :"")>@Resource.LowToHighPrice</option>
+                            <option value="@Url.Action(Model.View, "catalog", new { arg1 = Model.Sex, arg2 = Model.Type, arg3 = Model.Category, arg4 = "hightolow", arg5 = 1 })" @(Model.Order == "hightolow" ? "selected" :"")>@Resource.HighToLowPrice</option>
+                        </select>
+                        <span class="text-muted">@Resource.Showing&nbsp;</span><span>1 - @ECommerce.Domain.ConstantsData.SiteConstants.PageSize @Resource.Items</span>
+                    </div>
+                </div>
+                <div class="column">
+                    <div class="shop-view">
+                        <a class="grid-view active" href="@Url.Action("grid", "catalog", new { arg1 = Model.Sex, arg2 = Model.Type, arg3 = Model.Category,arg4 = Model.Order, arg5 = Model.Page })"><span></span><span></span><span></span></a>
+                        <a class="list-view" href="@Url.Action("list", "catalog", new { arg1 = Model.Sex, arg2 = Model.Type, arg3 = Model.Category,arg4 = Model.Order, arg5 = Model.Page })"><span></span><span></span><span></span></a>
+                    </div>
+                </div>
+            </div>
+            @if (Model.Products.Any())
+            {
+                <div class="isotope-grid cols-3 mb-2">
+                    <div class="gutter-sizer"></div>
+                    <div class="grid-sizer"></div>
+                    @foreach (var item in Model.Products)
+                    {
+                        @Html.Partial("Partial/_GridItemProduct", item)
+                    }
+                </div>
+                <nav class="pagination">
+                    <div class="column text-left hidden-xs-down"><a class="btn btn-outline-secondary btn-sm @(Model.Page == 1 ? "disabled" : "")" href="@Url.Action(Model.View, "catalog", new { arg1 = Model.Sex, arg2 = Model.Type, arg3 = Model.Category, arg4 = Model.Order, arg5 = Model.Page - 1 })"><i class="icon-arrow-left"></i>&nbsp;@Resource.Prev</a></div>
+                    <div class="column">
+                        <ul class="pages">
+                            @if (Model.Page - 3 > 0)
+                            {
+                                <li>...</li>
+                            }
+                            @{
+                                var startIndex = Model.Page;
+                                if (startIndex - 2 >= 1)
+                                {
+                                    startIndex = startIndex - 2;
+                                }
+                                else if (startIndex - 1 >= 1)
+                                {
+                                    startIndex = startIndex - 1;
+                                }
+                                var endIndex = startIndex + 4;
+                                if (endIndex > Model.LastPage)
+                                {
+                                    endIndex = Model.LastPage;
+                                }
+                            }
+                            @for (int index = startIndex; index <= endIndex; index++)
+                            {
+                                <li class="@(index == Model.Page ? "active" : "")"><a href="@Url.Action(Model.View, "catalog", new { arg1 = Model.Sex, arg2 = Model.Type, arg3 = Model.Category,arg4 = Model.Order, arg5 = index })">@index</a></li>
+                            }
+                            @if (Model.Page + 2 < Model.LastPage)
+                            {
+                                <li>...</li>
+                            }
+                        </ul>
+                    </div>
+                    <div class="column text-right hidden-xs-down"><a class="btn btn-outline-secondary btn-sm @(Model.Page == Model.LastPage ? "disabled" : "")" href="@Url.Action(Model.View, "catalog", new { arg1 = Model.Sex, arg2 = Model.Type, arg3 = Model.Category,arg4 = Model.Order, arg5 = Model.Page + 1 })">@Resource.Next&nbsp;<i class="icon-arrow-right"></i></a></div>
+                </nav>
+            }
+        </div>
+        @Html.Partial("Partial/_Sidebar", Model)
+    </div>
+    <div class="row">
+        <div class="col-xl-12">
+            <div class="seo-menu">
+                <div class="seo-menu-title">Интернет-магазин женского нижнего белья и аксессуаров Nitsak.com.ua</div>
+                @if (String.IsNullOrEmpty(Model.SeoText))
+                {
+                    <h1>Женское нижние белье</h1>
+                    <p>Нижнее белье должно быть не только красивым, но и очень удобным. Ведь дискомфорт снижает работоспособность, отвлекает, портит настроение. Важно остановить внимание на подходящей модели, с учетом индивидуальных особенностей фигуры и гигиенических требований.</p>
+                    <p><em>Выбор нижнего белья: на что стоит обратить внимание</em></p>
+                    <p>Большое значение имеет крой нижнего белья. Стройным девушкам подойдут практически любые модели трусиков. А вот женщинам с пышными формами стоит отдать предпочтение моделям с широким верхом, который подтянет низ живота. Для обладательниц чувствительной кожи предпочтительны трусы из натуральных тканей. Но даже если нужно изысканное и элегантное кружевное белье, ластовица должна быть из хлопка.</p>
+                    <p>Выбор бюстгальтера тоже имеет свои особенности – форма чашки может подчеркнуть достоинства фигуры. Для повседневной носки стоит выбрать классические модели, с косточками или без. Обладательницам большой груди подойдут бюстгальтеры с широкими бретелями, они не будут врезаться в кожу.</p>
+                    <p>Спортивные модели оптимальны для активного отдыха, занятий в тренажерном зале. Они обеспечивают максимальную поддержку, минимизируют травматизацию во время прыжков и бега.</p>
+                    <h2>Доставка</h2>
+                    <p>Nitsak.com.ua доставляет женского нижнего белья (жіночої нижньої білизни) в Виннице, а также по всей территории Украины:</p>
+                    <p>Киев | Харьков | Днепропетровск | Одесса | Запорожье | Львов | Кривой Рог | Николаев | Винница | Херсон | Чернигов | Другие города</p>
+                }
+                else
+                {
+                    @Html.Raw(Model.SeoText)
+                }
+            </div>
+        </div>
+    </div>
+</div>

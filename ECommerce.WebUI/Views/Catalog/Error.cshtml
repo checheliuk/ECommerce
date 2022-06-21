@@ -1,0 +1,11 @@
+﻿@{
+    ViewBag.Title = Resource.PageNotFound;
+}
+
+<div class="container padding-top-3x padding-bottom-3x mb-1">
+    <img class="d-block m-auto page-not-found" src="~/Img/404_art.jpg"  alt="404">
+    <div class="padding-top-1x mt-2 text-center">
+        <h3>@Resource.PageNotFound</h3>
+        <p>@Resource.CanNotFindPage @Html.ActionLink(Resource.GoBackToHomepage, "grid", "catalog")<br>@Resource.TryUsingSearch</p>
+    </div>
+</div>

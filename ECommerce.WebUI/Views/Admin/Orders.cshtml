@@ -1,0 +1,80 @@
+﻿@model ECommerce.Domain.ViewModel.AdminOrderViewModel
+@using ECommerce.Domain.Model
+@using ECommerce.WebUI.Helpers
+@{
+    ViewBag.Title = "Orders";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+<br />
+
+<table class="table">
+    <thead class="thead-light">
+        <tr>
+            <th scope="col">#</th>
+            <th scope="col">@Resource.Name</th>
+            <th scope="col">@Resource.Status</th>
+            <th scope="col">@Resource.Date</th>
+            <th scope="col" width="63px"></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model.Orders)
+        {
+            <tr>
+                <th scope="row">@item.ShippingDetailsID</th>
+                <td>
+                    @item.LastName @item.FirstName 
+                    <br/>
+                    @Resource.Phone: @item.Phone
+                </td>
+                <td>@(HelperCommon.GetDescription((EnumModel.ShippingStatus)item.Status))</td>
+                <td>@item.Create.ToString("yyyy-MM-dd HH:mm:ss")</td>
+                <td>
+                    <a href="@Url.Action("order", "admin", new { arg1 = item.ShippingDetailsID })" class="btn btn-dark">@Resource.ProcessOrder</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+@{
+    var startIndex = Model.Page;
+    if (startIndex - 2 >= 1)
+    {
+        startIndex = startIndex - 2;
+    }
+    else if (startIndex - 1 >= 1)
+    {
+        startIndex = startIndex - 1;
+    }
+    var endIndex = startIndex + 4;
+    if (endIndex > Model.LastPage)
+    {
+        endIndex = Model.LastPage;
+    }
+}
+
+<nav aria-label="Page navigation example">
+    <ul class="pagination justify-content-center">
+        <li class="page-item @(Model.Page == 1 ? "disabled" : "")"><a class="page-link" href="@Url.Action("oredrs", "admin", new { arg1 = Model.Page - 1 })">@Resource.Prev</a></li>
+
+        @if (Model.Page - 3 > 0)
+        {
+            <li class="page-item"><a class="page-link">...</a></li>
+        }
+
+        @for (int index = startIndex; index <= endIndex; index++)
+            {
+            <li class="page-item @(index == Model.Page ? "active" : "")"><a class="page-link" href="@Url.Action("oredrs", "admin", new { arg1 = index })">@index</a></li>
+        }
+
+        @if (Model.Page + 2 < Model.LastPage)
+        {
+            <li class="page-item"><a class="page-link">...</a></li>
+        }
+
+        <li class="page-item @(Model.Page == Model.LastPage ? "disabled" : "")"><a class="page-link" href="@Url.Action("oredrs", "admin", new { arg1 = Model.Page + 1 })">@Resource.Next</a></li>
+    </ul>
+</nav>
+

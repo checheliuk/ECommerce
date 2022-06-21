@@ -1,0 +1,84 @@
+﻿@{
+    ViewBag.Title = "Немного о нас и о нашей команде";
+    ViewBag.Description = "Интернет-магазин женского нижнего белья Nitsak.com.ua предлагает женщинам и девушкам выбрать и купить нижнее белье различных фасонов, расцветок и форм, соответствующих Вашему стилю и предпочтения.";
+    ViewBag.Keywords = Resource.Keywords;
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+@section meta{
+    <link rel="canonical" href="@(Resource.UrlSite + "/info/about")" />
+    <meta property="og:image" content="http://nitsak.com.ua/img/social/nitsak-fb.png">
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="@ViewBag.Title">
+    <meta property="og:description" content="@ViewBag.Description" />
+    <meta name="twitter:image" content="http://nitsak.com.ua/img/social/nitsak-fb.png">
+    <meta name="twitter:title" content="@ViewBag.Title">
+    <meta name="twitter:description" content="@ViewBag.Description">
+}
+<div class="page-title">
+    <div class="container">
+        <div class="column"><h1>@Resource.AboutUs</h1></div>
+        <div class="column">
+            <ul class="breadcrumbs">
+                <li itemscope itemtype="http://data-vocabulary.org/Breadcrumb"><a itemprop="url" href="@Url.Action("grid", "catalog")"><span itemprop="title">@Resource.Catalog</span></a></li>
+                <li class="separator">&nbsp;</li>
+                <li itemscope itemtype="http://data-vocabulary.org/Breadcrumb"><a itemprop="url" href="@Url.Action("about", "info")"><span itemprop="title">@Resource.AboutUs</span></a></li>
+            </ul>
+        </div>
+    </div>
+</div>
+<div class="container padding-bottom-2x mb-2">
+    <div class="row align-items-center padding-bottom-2x">
+        <div class="col-md-5"><img class="d-block w-270 m-auto" src="/img/about/online-shopping.jpg" alt="Інтернет-магазини" title="Інтернет-магазини"></div>
+        <div class="col-md-7">
+            <div class="mt-30 hidden-md-up"></div>
+            <h2 class="text-md-left text-center">Немного о нас</h2>
+            <p>Интернет-магазин женского нижнего белья <a class="gold-link" href="/">nitsak.com.ua</a> предлагает женщинам и девушкам выбрать и купить нижнее белье различных фасонов, расцветок и форм, соответствующих Вашему стилю и предпочтения.</p>
+            <p>Уникальность изделий и качество работы являются для нас основополагающими факторами. Мы постоянно находимся в поиске идеальных форм, фактур и материалов, работаем над повышением качества. В нашем магазине Вы найдете широкий ассортимент товаров, который поможет Вам создать уникальный и привлекательный образ каждый день.</p>
+            <p>У нас Вы можете приобрести качественные и красивые комплекты женского белья, трусики и бюстгальтеры, спортивные топы и шортики, сексуальные пеньюары и одежду для сна и дома, а также другие девичьи милости.</p>
+            <p>Абсолютно каждая вещь, попавшая на витрину нашего магазина, проверяется на предмет брака, а при отправке - тщательно упаковывается для того, чтобы приехать к вам в целости и сохранности. Все фотографии делаются нами - вы покупаете именно то, что видите на фото.</p>
+            <p>Мы ценим каждого клиента, ставя превыше всего честность, ответственность, вежливость и человеческое отношение.И не продаем того, чего сами бы не приобрели для себя и своих близких.</p>
+            <p>Ассортимент нашего магазина постоянно пополняется новинками, а акции и скидки не оставят Вас без покупок.</p>
+            <a class="text-medium text-decoration-none" href="/"><b>Просмотр продуктов</b>&nbsp;<i class="icon-arrow-right"></i></a>
+        </div>
+    </div>
+    <hr>
+    <div class="row align-items-center padding-top-2x padding-bottom-2x">
+        <div class="col-md-5 order-md-2"><img class="d-block w-270 m-auto" src="/img/about/delivery.jpg" alt="Доставка" title="Доставка"></div>
+        <div class="col-md-7 order-md-1">
+            <div class="mt-30 hidden-md-up"></div>
+            <h2 class="text-md-left text-center">Доставка и способы оплаты </h2>
+            <p>Наш интернет-магазин <a class="gold-link" href="/">nitsak.com.ua</a> доставляет покупки по всей территории Украины с помощью почтовых служб <a class="gold-link" href="https://novaposhta.ua/" target="_blank" rel="nofollow">Новая почта</a> и <a class="gold-link" href="http://ukrposhta.ua/" target="_blank" rel="nofollow">Укрпочта</a>. Мы работаем по системе предоплаты или наложенного платежа (подробнее об этом читайте на странице доставка и оплата)</p>
+            <a class="text-medium text-decoration-none" href="@Url.Action("shipping-and-payment", "info")"><b>Условия доставки и способы оплаты</b>&nbsp;<i class="icon-arrow-right"></i></a>
+        </div>
+    </div>
+    @*<hr>
+        <div class="row align-items-center padding-top-2x padding-bottom-2x">
+            <div class="col-md-5 order-md-2"><img class="d-block w-270 m-auto" src="/img/about/shop-offline.jpg" alt="Розничный магазин" title="Розничный магазин"></div>
+            <div class="col-md-7 order-md-1">
+                <div class="mt-30 hidden-md-up"></div>
+                <h2 class="text-md-left text-center">Розничный магазин в городе Винница</h2>
+                <p>Также вы можете посетить наш розничный магазин в городе Винница за адресом: улица Козицкого 70, "Петроцентр", 2-й этаж. Вы получите профессиональные консультации и обслуживание сотрудников магазина. Вы можете ознакомиться и забрать свой товар непосредственно в магазине.</p>
+                <a class="text-medium text-decoration-none" href="@Url.Action("contact", "info")"><b>@Resource.Store</b>&nbsp;<i class="icon-arrow-right"></i></a>
+            </div>
+        </div>*@
+    <hr>
+    <div class="text-center padding-top-3x mb-30">
+        <h2>Наша основная команда</h2>
+        <p class="text-muted">Мы заботимся о наших клиентах <br /> ведь у нас доступные цены и отличное качество</p>
+    </div>
+    <div class="row">
+        <div class="col-md-12 text-center">
+            <img class="d-block w-150 mx-auto img-thumbnail rounded-circle mb-2" src="~/img/about/anastasia-nitsak-4.jpg" alt="Команда" title="Команда">
+            <h6>Анастасия Ницак</h6>
+            @*<p class="text-muted mb-2">Founder, CEO</p>*@
+            <div class="social-bar">
+                <a class="social-button shape-circle sb-instagram" href="https://www.instagram.com/nitsak.com.ua/" target="_blank" rel="nofollow" data-toggle="tooltip" data-placement="top" title="Instagram"><i class="socicon-instagram"></i></a>
+                <a class="social-button shape-circle sb-vk" href="https://vk.com/id86214736" target="_blank" data-toggle="tooltip" rel="nofollow" data-placement="top" title="Vkontakte"><i class="socicon-vkontakte"></i></a>
+                <a class="social-button shape-circle sb-facebook" href="https://www.facebook.com/profile.php?id=100024375933840" rel="nofollow" target="_blank" data-toggle="tooltip" data-placement="top" title="Facebook"><i class="socicon-facebook"></i></a>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+

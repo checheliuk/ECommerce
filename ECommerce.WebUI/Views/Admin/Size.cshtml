@@ -1,0 +1,59 @@
+﻿@model ECommerce.Domain.ViewModel.AdminAssignedViewModel
+@{
+    ViewBag.Title = "Size";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+<br />
+<ul class="nav nav-pills">
+    <li class="nav-item">
+        <a class="nav-link" href="@Url.Action("product", "admin", new { arg1 = Model.ProductID })">@Resource.Edit</a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link" href="@Url.Action("photo", "admin", new { arg1 = Model.ProductID })">@Resource.EditPhoto</a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link active" href="@Url.Action("size", "admin", new { arg1 = Model.ProductID })">@Resource.Size</a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link" href="@Url.Action("color", "admin", new { arg1 = Model.ProductID })">@Resource.Color</a>
+    </li>
+</ul>
+<br />
+@if (Model.IsSavedSuccess)
+{
+    <div class="alert alert-success alert-dismissible fade show" role="alert">
+        @Resource.Saved
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+}
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+    @Html.ValidationSummary(true)
+    @Html.HiddenFor(model => model.ProductID)
+    <div class="form-group row">
+        <label class="col-sm-2">@Resource.Size</label>
+        <label class="col-sm-2">@Resource.Quantity</label>
+    </div>
+    for (int i = 0; i < Model.AssignedData.Count; i++)
+    {
+        <div class="form-group row">
+            <div class="col-sm-2">
+                <div class="form-check">
+                    <input id="size-@Model.AssignedData[i].ID" type="checkbox" name="sizes" value="@Model.AssignedData[i].ID" @(Html.Raw(Model.AssignedData[i].Assigned ? "checked=\"checked\"" : "")) />
+                    <label for="size-@Model.AssignedData[i].ID">@Model.AssignedData[i].Title</label>
+                </div>
+            </div>
+            <div class="col-sm-2">
+                @Html.HiddenFor(model => model.AssignedData[i].ID)
+                @Html.HiddenFor(model => model.AssignedData[i].Assigned)
+                @Html.HiddenFor(model => model.AssignedData[i].Title)
+                @Html.EditorFor(model => Model.AssignedData[i].Count, new { htmlAttributes = new { @class = "form-control" }})
+            </div>
+        </div>
+    }
+    <hr />
+    <button type="submit" class="btn btn-primary mb-2">@Resource.Save</button>
+}

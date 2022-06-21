@@ -1,0 +1,87 @@
+﻿@model IEnumerable<ECommerce.Domain.Model.Category>
+
+@{
+    ViewBag.Title = "Categories";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+<br />
+
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.Title)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Url)
+        </th>
+        <th></th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Title)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Url)
+            </td>
+            <td>
+                <button class="btn btn-dark" onclick="$('#element-@item.CategoryID').show();">@Resource.Edit</button>
+            </td>
+        </tr>
+        <tr id="element-@item.CategoryID" class="edit-text">
+            <td colspan="3">
+                <div class="form-group row">
+                    <div class="col-sm-2">
+                        <b>SEO Title</b>
+                    </div>
+                    <div class="col-sm-10">
+                        @Html.EditorFor(modelItem => item.SeoTitle, new { htmlAttributes = new { @class = "form-control seo-title" } })
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <div class="col-sm-2">
+                        <b>SEO Description</b>
+                    </div>
+                    <div class="col-sm-10">
+                        @Html.EditorFor(modelItem => item.SeoDescription, new { htmlAttributes = new { @class = "form-control seo-description" } })
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <div class="col-sm-2">
+                        <b>@Resource.Text</b>
+                    </div>
+                    <div class="col-sm-10">
+                        @Html.EditorFor(modelItem => item.SeoText, new { htmlAttributes = new { @class = "form-control seo-text" } })
+                    </div>
+                </div>
+                <button type="button" class="btn btn-primary mb-2" onclick="upadatetypeproduct(@item.CategoryID)">@Resource.Save</button>
+            </td>
+        </tr>
+    }
+</table>
+
+@section scripts
+{
+    <script>
+        function upadatetypeproduct(categoryID) {
+            var item = $('#element-' + categoryID);
+            var seoTitle = item.find(".seo-title")[0].value;
+            var seoDescription = item.find(".seo-description")[0].value;
+            var seoText = item.find(".seo-text")[0].value;
+
+            $.ajax({
+                url: "/admin/upadatecategory",
+                type: "POST",
+                contentType: "application/json; charset=utf-8",
+                data: "{'categoryID':'" + categoryID + "','seoTitle':'" + seoTitle + "','seoDescription':'" + seoDescription + "','seoText':'" + seoText + "'}",
+                dataType: "text"
+            });
+
+            item.hide();
+        }
+    </script>
+}
+

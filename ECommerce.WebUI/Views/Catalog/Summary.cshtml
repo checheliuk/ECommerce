@@ -1,0 +1,38 @@
+﻿@model ECommerce.Domain.Data.Cart
+@{
+    Layout = null;
+    var shipping = Model.GetShipping();
+    var total = Model.ComputeTotalValue();
+    var quantity = Model.GetQuantity();
+}
+<div class="cart">
+    <a href="@Url.Action("cart", "catalog")"></a>
+    <i class="icon-bag"></i>
+    <span class="count">@quantity</span>
+    <span class="subtotal">@total @Resource.Currency</span>
+    @if (quantity > 0)
+    {
+        <div class="toolbar-dropdown">
+            @foreach (var item in shipping.products)
+            {
+                <div class="dropdown-product-item">
+                    <span class="dropdown-product-remove"><i class="icon-cross" onclick="removeFromCart(@item.ProductShippingID)"></i></span>
+                    <a class="dropdown-product-thumb" href="@Url.Action("details", "catalog", new { arg1 = item.Product.Url, arg2 = item.Product.ProductID })"><img src="@item.Product.PathToTitlePhoto" alt="@item.Product.Title"></a>
+                    <div class="dropdown-product-info">
+                        <a class="dropdown-product-title" href="@Url.Action("details", "catalog", new { arg1 = item.Product.Url, arg2 = item.Product.ProductID })">@item.Product.Title</a>
+                        <span class="dropdown-product-details">@item.Quantity x @item.Product.Price @Resource.Currency</span>
+                    </div>
+                </div>
+            }
+            <div class="toolbar-dropdown-group">
+                <div class="column"><span class="text-lg">@Resource.Total:</span></div>
+                <div class="column text-right"><span class="text-lg text-medium">@total @Resource.Currency</span></div>
+            </div>
+            <div class="toolbar-dropdown-group">
+                <div class="column"><a class="btn btn-sm btn-block btn-secondary" href="@Url.Action("cart", "catalog")">@Resource.ViewCart</a></div>
+                <div class="column"><a class="btn btn-sm btn-block btn-primary" href="@Url.Action("checkout", "catalog")">@Resource.Checkout</a></div>
+            </div>
+        </div>
+    }
+</div>
+

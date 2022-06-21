@@ -1,0 +1,38 @@
+﻿<!DOCTYPE html>
+<html lang="ru">
+<head prefix="og: http://ogp.me/ns#">
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@ViewBag.Title | nitsak.com.ua</title>
+    <meta name="description" content="@ViewBag.Description">
+    <meta name="keywords" content="@ViewBag.Keywords">
+    <meta name="robots" content="index, follow">
+    <meta name="google-site-verification" content="HC2V3umNywD6QNli0Y0tS6C5LtfIpXfd9YOpkCw9ssg" />
+    <meta name="twitter:site" content="@HttpContext.Current.Request.Url" />
+    <meta property="og:url" content="@HttpContext.Current.Request.Url" />
+    <meta property="og:locale" content="ru_RU">
+    <meta http-equiv="Content-Language" content="ru">
+    <link rel="apple-touch-icon" href="/img/social/apple-touch-icon.png">
+    <link rel="android-touch-icon" href="/img/social/apple-touch-icon.png">
+    <link rel="alternate" hreflang="ru" href="@HttpContext.Current.Request.Url">
+    @Styles.Render("~/Content/css")
+    @RenderSection("meta", false)
+</head>
+<body>
+    @Html.Partial("_CategoryMenu")
+    @Html.Partial("_MobileMenu")
+    @Html.Partial("_Topbar")
+    @Html.Partial("_Navbar")
+    <div class="offcanvas-wrapper">
+        @RenderBody()
+        @Html.Partial("_Footer")
+    </div>
+    @Html.Partial("_Photo")
+    @Html.Partial("_Message")
+    <a class="scroll-to-top-btn visible" href="#"><i class="icon-arrow-up"></i></a>
+    <div class="site-backdrop"></div>
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-113882940-1"></script>
+    @Scripts.Render("~/bundles/scripts")
+    @RenderSection("scripts", required: false)
+</body>
+</html>

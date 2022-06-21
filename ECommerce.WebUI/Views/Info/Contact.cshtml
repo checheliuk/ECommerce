@@ -1,0 +1,97 @@
+﻿@{
+    ViewBag.Title = Resource.Contact;
+    ViewBag.Keywords = Resource.Keywords;
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+@section meta{
+    <link rel="canonical" href="@(Resource.UrlSite + "/info/contact")" />
+    <meta property="og:image" content="http://nitsak.com.ua/img/social/nitsak-fb.png">
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="@ViewBag.Title">
+    @*<meta property="og:description" content="@ViewBag.Description" />*@
+    <meta name="twitter:image" content="http://nitsak.com.ua/img/social/nitsak-fb.png">
+    <meta name="twitter:title" content="@ViewBag.Title">
+    @*<meta name="twitter:description" content="@ViewBag.Description">*@
+}
+<div class="page-title">
+    <div class="container">
+        <div class="column"><h1>@Resource.Contact</h1></div>
+        <div class="column">
+            <ul class="breadcrumbs">
+                <li itemscope itemtype="http://data-vocabulary.org/Breadcrumb"><a itemprop="url" href="@Url.Action("grid", "catalog")"><span itemprop="title">@Resource.Catalog</span></a></li>
+                <li class="separator">&nbsp;</li>
+                <li itemscope itemtype="http://data-vocabulary.org/Breadcrumb"><a itemprop="url" href="@Url.Action("contact", "info")"><span itemprop="title">@Resource.Contact</span></a></li>
+            </ul>
+        </div>
+    </div>
+</div>
+<a name="store"></a>
+<div class="container padding-bottom-2x mb-2 container-min-height">
+    <div class="row">
+        <div class="col-md-7"><div class="display-3 text-muted opacity-75 mb-30">@Resource.CustomerService</div></div>
+        <div class="col-md-5">
+            <ul class="list-icon">
+                <li><i class="icon-mail"></i><a class="navi-link" href="mailto:nastyanicak@gmail.com">nastyanicak@gmail.com</a></li>
+                <li><i class="icon-bell"></i><a class="navi-link" href="tel:0638251498">063 825-1498</a></li>
+                @*<li><i class="icon-clock"></i>1 - 2 business days</li>*@
+            </ul>
+            <a class="social-button shape-circle sb-instagram" href="https://www.instagram.com/nitsak.com.ua/" target="_blank" rel="nofollow" data-toggle="tooltip" data-placement="top" title="Instagram"><i class="socicon-instagram"></i></a>
+            <a class="social-button shape-circle sb-vk" href="https://vk.com/id86214736" target="_blank" data-toggle="tooltip" rel="nofollow" data-placement="top" title="Vkontakte"><i class="socicon-vkontakte"></i></a>
+            <a class="social-button shape-circle sb-facebook" href="https://www.facebook.com/profile.php?id=100024375933840" target="_blank" rel="nofollow" data-toggle="tooltip" data-placement="top" title="Facebook"><i class="socicon-facebook"></i></a>
+        </div>
+    </div>
+    <h3 class="margin-top-3x text-center mb-30">@Resource.Store</h3>
+    <div class="row">
+        <div class="col-md-12">
+            <div class="card mb-30">
+	            <div id="gmap_canvas"></div>
+                <div class="card-body">
+                    <ul class="list-icon">
+                        <li><i class="icon-map"></i>@Resource.StoreLocation</li>
+                        <li><i class="icon-bell"></i><a class="navi-link" href="tel:0638251498">063 825-1498</a></li>
+                        <li><i class="icon-mail"></i><a class="navi-link" href="mailto:nastyanicak@gmail.com">nastyanicak@gmail.com</a></li>
+                        <li>
+                            <i class="icon-clock"></i>
+                            <span class="opacity-50">Вторник - Пятница:</span> 12.00 - 19.00 <br />
+                            <span class="opacity-50">Суббота - Воскресенье:</span> 12.00 - 17.00 <br />
+                            <span class="opacity-50">Понедельник:</span> Выходной
+                        </li>
+                    </ul>
+                </div>
+                <div class="gallery-wrapper">
+                    <div class="row justify-content-center">
+                        <div class="col-4">
+                            <div class="gallery-item">
+                                <a href="/img/shop-photo-1.jpg" data-size="757x1136"><img src="/img/shop-photo-1.jpg" alt="Магазин нижнего белья «Nitsak»"></a>
+                            </div>
+                        </div>
+                        @*<div class="col-4">
+                                <div class="gallery-item">
+                                    <a href="/img/shop-photo-2.jpg" data-size="1136x757"><img src="/img/shop-photo-2.jpg" alt="Магазин нижнего белья «Nitsak»"></a>
+                                </div>
+                            </div>*@
+                        <div class="col-4">
+                            <div class="gallery-item">
+                                <a href="/img/shop-photo-3.jpg" data-size="757x1136"><img src="/img/shop-photo-3.jpg" alt="Магазин нижнего белья «Nitsak»"></a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+@section scripts
+{
+    <script src='https://maps.googleapis.com/maps/api/js?&key=AIzaSyCvlGWliQu5ja5RPbXtDCQGXMD2U79OQEs'></script>
+    <script type='text/javascript'>
+        function init_map() {
+            var myOptions = { zoom: 15, center: new google.maps.LatLng(49.2381815, 28.48970220000001), mapTypeId: google.maps.MapTypeId.ROADMAP };
+            map = new google.maps.Map(document.getElementById('gmap_canvas'), myOptions);
+            marker = new google.maps.Marker({ map: map, position: new google.maps.LatLng(49.2381815, 28.48970220000001) });
+            infowindow = new google.maps.InfoWindow({ content: '<strong>Магазин нижнего белья «Nitsak»</strong><br>г. Винница ул. Коцюбинского 70, торговый центр «Петроцентр», второй этаж<br>' })
+                ; google.maps.event.addListener(marker, 'click', function () { infowindow.open(map, marker); }); infowindow.open(map, marker);
+        }
+        google.maps.event.addDomListener(window, 'load', init_map);
+    </script>
+}

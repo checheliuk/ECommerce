@@ -1,0 +1,189 @@
+﻿@model ECommerce.Domain.ViewModel.AdminProductViewModel
+@using ECommerce.Domain.Model
+
+@{
+    ViewBag.Title = "Product";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+@if (Model.Product.ProductID != 0)
+{
+    <br />
+
+    <ul class="nav nav-pills">
+        <li class="nav-item">
+            <a class="nav-link active" href="@Url.Action("product", "admin", new { arg1 = Model.Product.ProductID })">@Resource.Edit</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" href="@Url.Action("photo", "admin", new { arg1 = Model.Product.ProductID })">@Resource.EditPhoto</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" href="@Url.Action("size", "admin", new { arg1 = Model.Product.ProductID })">@Resource.Size</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" href="@Url.Action("color", "admin", new { arg1 = Model.Product.ProductID })">@Resource.Color</a>
+        </li>
+    </ul>
+}
+
+<br />
+
+@if (Model.IsSavedSuccess)
+{
+    <div class="alert alert-success alert-dismissible fade show" role="alert">
+        @Resource.Saved
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+}
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+
+    @Html.ValidationSummary(true)
+    @Html.HiddenFor(model => model.Product.ProductID)
+    @Html.HiddenFor(model => model.Product.PathToTitlePhoto)
+    @Html.HiddenFor(model => model.Product.PathToOriginPhoto)
+    @Html.HiddenFor(model => model.Product.Url)
+
+    <div class="form-group row">
+        <div class="col-sm-2">
+            @Resource.MainPhoto
+        </div>
+        <div class="col-sm-4">
+            <img src="@Model.Product.PathToTitlePhoto" class="img-fluid">
+        </div>
+    </div>
+
+    <div class="form-group row">
+        <label class="col-sm-2 col-form-label">@Resource.Url</label>
+        <div class="col-sm-10">
+            @Html.TextBoxFor(model => model.Product.Url, new { @class = "form-control", disabled = "disabled" })
+        </div>
+    </div>
+
+    <div class="form-group row">
+        @Html.LabelFor(model => model.Product.Title, new { @class = "col-sm-2 col-form-label" })
+        <div class="col-sm-10">
+            @Html.EditorFor(model => model.Product.Title, new { htmlAttributes = new { @class = "form-control" } })
+            @Html.ValidationMessageFor(model => model.Product.Title)
+        </div>
+    </div>
+
+    <div class="form-group row">
+        <label class="col-sm-2 col-form-label">@Resource.Status</label>
+        <div class="col-sm-10">
+            <div class="form-check">
+                @Html.RadioButtonFor(model => model.Product.Status, EnumModel.ProductStatus.Create, new { id = EnumModel.ProductStatus.Create })
+                <label for="@EnumModel.ProductStatus.Create">@Resource.Create</label>
+            </div>
+            <div class="form-check">
+                @Html.RadioButtonFor(model => model.Product.Status, EnumModel.ProductStatus.Available, new { id = EnumModel.ProductStatus.Available })
+                <label for="@EnumModel.ProductStatus.Available">@Resource.Available</label>
+            </div>
+            <div class="form-check">
+                @Html.RadioButtonFor(model => model.Product.Status, EnumModel.ProductStatus.NotAvailable, new { id = EnumModel.ProductStatus.NotAvailable })
+                <label for="@EnumModel.ProductStatus.NotAvailable">@Resource.NotAvailable</label>
+            </div>
+            <div class="form-check">
+                @Html.RadioButtonFor(model => model.Product.Status, EnumModel.ProductStatus.Awaiting, new { id = EnumModel.ProductStatus.Awaiting })
+                <label for="@EnumModel.ProductStatus.Awaiting">@Resource.Awaiting</label>
+            </div>
+            <div class="form-check">
+                @Html.RadioButtonFor(model => model.Product.Status, EnumModel.ProductStatus.Delete, new { id = EnumModel.ProductStatus.Delete })
+                <label for="@EnumModel.ProductStatus.Delete">@Resource.Delete</label>
+            </div>
+        </div>
+    </div>
+
+    <div class="form-group row">
+        @Html.LabelFor(model => model.Product.Description, new { @class = "col-sm-2 col-form-label" })
+        <div class="col-sm-10">
+            @Html.EditorFor(model => model.Product.Description, new { htmlAttributes = new { @class = "form-control" } })
+            @Html.ValidationMessageFor(model => model.Product.Description)
+        </div>
+    </div>
+
+    <div class="form-group row">
+        @Html.LabelFor(model => model.Product.Price, new { @class = "col-sm-2 col-form-label" })
+        <div class="col-sm-10">
+            @Html.EditorFor(model => model.Product.Price, new { htmlAttributes = new { @class = "form-control" } })
+            @Html.ValidationMessageFor(model => model.Product.Price)
+        </div>
+    </div>
+
+    <div class="form-group row">
+        @Html.LabelFor(model => model.Product.FakePrice, new { @class = "col-sm-2 col-form-label" })
+        <div class="col-sm-10">
+            @Html.EditorFor(model => model.Product.FakePrice, new { htmlAttributes = new { @class = "form-control" } })
+            @Html.ValidationMessageFor(model => model.Product.FakePrice)
+        </div>
+    </div>
+
+    <div class="form-group row">
+        @Html.LabelFor(model => model.Product.Discount, new { @class = "col-sm-2 col-form-label" })
+        <div class="col-sm-10">
+            @Html.EditorFor(model => model.Product.Discount, new { htmlAttributes = new { @class = "form-control" } })
+            @Html.ValidationMessageFor(model => model.Product.Discount)
+        </div>
+    </div>
+
+    <div class="form-group row">
+        <label class="col-sm-2 col-form-label">@Resource.Sex</label>
+        <div class="col-sm-10">
+            <div class="form-check">
+                @Html.RadioButtonFor(model => model.Product.Sex, EnumModel.Sex.woman, new { id = EnumModel.Sex.woman })
+                <label for="@EnumModel.Sex.woman">@Resource.Woman</label>
+            </div>
+            <div class="form-check">
+                @Html.RadioButtonFor(model => model.Product.Sex, EnumModel.Sex.man, new { id = EnumModel.Sex.man })
+                <label for="@EnumModel.Sex.man">@Resource.Man</label>
+            </div>
+            @*<div class="form-check">
+                    @Html.RadioButtonFor(model => model.Product.Sex, EnumModel.Sex.boy, new { id = EnumModel.Sex.boy })
+                    <label for="@EnumModel.Sex.boy">@Resource.Boy</label>
+                </div>
+                <div class="form-check">
+                    @Html.RadioButtonFor(model => model.Product.Sex, EnumModel.Sex.girl, new { id = EnumModel.Sex.girl })
+                    <label for="@EnumModel.Sex.girl">@Resource.Girl</label>
+                </div>*@
+        </div>
+    </div>
+
+    <div class="form-group row">
+        <label class="col-sm-2 col-form-label">@Resource.TypeProduct</label>
+        <div class="col-sm-10">
+            @foreach (var item in Model.TypeProducts)
+            {
+                @Html.RadioButtonFor(model => model.Product.TypeProductID, item.TypeProductID, new { id = "type-product-" + item.TypeProductID })
+                <label for="type-product-@item.TypeProductID">@item.Title</label>
+            }
+        </div>
+    </div>
+
+    <div class="form-group row">
+        <label class="col-sm-2 col-form-label">@Resource.Categories</label>
+        <div class="col-sm-10">
+            @foreach (var item in Model.AssignedCategoryData)
+            {
+                <div class="form-check form-check-inline">
+                    <input id="category-@item.CategoryID" type="checkbox" name="categories" value="@item.CategoryID" @(Html.Raw(item.Assigned ? "checked=\"checked\"" : "")) />
+                    <label for="category-@item.CategoryID">@item.Title</label>
+                </div>
+            }
+        </div>
+    </div>
+
+    <div class="form-group row">
+        @Html.LabelFor(model => model.Product.Order, new { @class = "col-sm-2 col-form-label" })
+        <div class="col-sm-10">
+            @Html.EditorFor(model => model.Product.Order, new { htmlAttributes = new { @class = "form-control" } })
+            @Html.ValidationMessageFor(model => model.Product.Order)
+        </div>
+    </div>
+
+    <hr />
+    <button type="submit" class="btn btn-primary mb-2">@Resource.Save</button>
+}

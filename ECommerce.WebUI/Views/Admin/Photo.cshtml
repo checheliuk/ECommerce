@@ -1,0 +1,109 @@
+﻿@model ECommerce.Domain.ViewModel.AdminPhotoViewModel
+
+@{
+    ViewBag.Title = "EditPhoto";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+<br />
+
+<ul class="nav nav-pills">
+    <li class="nav-item">
+        <a class="nav-link" href="@Url.Action("product", "admin", new { arg1 = Model.ProductID })">@Resource.Edit</a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link active" href="@Url.Action("photo", "admin", new { arg1 = Model.ProductID })">@Resource.EditPhoto</a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link" href="@Url.Action("size", "admin", new { arg1 = Model.ProductID })">@Resource.Size</a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link" href="@Url.Action("color", "admin", new { arg1 = Model.ProductID })">@Resource.Color</a>
+    </li>
+</ul>
+
+<br />
+
+@if (Model.IsSavedSuccess)
+{
+    <div class="alert alert-success alert-dismissible fade show" role="alert">
+        @Resource.Saved
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+}
+
+@using (Html.BeginForm("upload", "admin", FormMethod.Post, new { enctype = "multipart/form-data" }))
+{
+    @Html.HiddenFor(model => model.ProductID)
+    <input type="file" name="files" id="files" style="width: 100%; margin-bottom:1rem;" multiple />
+    <input type="submit" class="btn btn-primary" value="@Resource.UploadFiles" />
+}
+
+<hr />
+
+@if (Model.Photos != null && Model.Photos.Count() > 0)
+{
+    using (Html.BeginForm())
+    {
+        @Html.AntiForgeryToken()
+        @Html.ValidationSummary(true)
+        @Html.HiddenFor(model => Model.ProductID)
+
+        for (int i = 0; i < Model.Photos.Count; i++)
+        {
+            <div class="form-group row">
+                <div class="col-sm-4">
+                    <img src="@Model.Photos[i].Thumbnail" class="img-fluid">
+                </div>
+                <div class="col-sm-8">
+                    @Html.HiddenFor(model => Model.Photos[i].PhotoID)
+                    @Html.HiddenFor(model => Model.Photos[i].Thumbnail)
+                    <div class="form-group row">
+                        @Html.LabelFor(model => model.Photos[i].Order, new { @class = "col-sm-4 col-form-label" })
+                        <div class="col-sm-8">
+                            @Html.EditorFor(model => Model.Photos[i].Order, new { htmlAttributes = new { @class = "form-control" } })
+                            @Html.ValidationMessageFor(model => Model.Photos[i].Order)
+                        </div>
+                    </div>
+                    <input type="button" class="btn btn-primary" value="@Resource.SetMainPhoto" onclick="setMainPhoto(@Model.Photos[i].PhotoID, @Model.ProductID)"/>
+                    <input type="button" class="btn btn-danger" value="@Resource.Delete" onclick="deletePhoto(@Model.Photos[i].PhotoID)" />
+                </div>
+            </div>
+        }
+
+        <input type="submit" class="btn btn-primary" value="@Resource.Save" />
+        <hr />
+    }
+}
+
+@section scripts
+{
+    <script>
+        function deletePhoto(photoID) {
+            $.ajax({
+                url: "/admin/deletephoto",
+                type: "POST",
+                contentType: "application/json; charset=utf-8",
+                data: "{'photoID':'" + photoID + "'}",
+                dataType: "text",
+                success: function () {
+                    location.reload();
+                }
+            });
+        }
+
+        function setMainPhoto(photoID, productID) {
+            $.ajax({
+                url: "/admin/setmainphoto",
+                type: "POST",
+                contentType: "application/json; charset=utf-8",
+                data: "{'photoID':'" + photoID + "','productID':'" + productID + "'}",
+                dataType: "text"
+            });
+        }
+    </script>
+}
+
+

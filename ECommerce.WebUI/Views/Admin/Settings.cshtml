@@ -1,0 +1,13 @@
+﻿@{
+    ViewBag.Title = "Settings";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+<br />
+<div class="btn-group-vertical" role="group">
+    @Html.ActionLink(Resource.TypeProduct, "typeproducts", "admin", routeValues: null, htmlAttributes: new { @class = "btn btn-dark" })
+    @Html.ActionLink(Resource.Categories, "categories", "admin", routeValues: null, htmlAttributes: new { @class = "btn btn-dark" })
+    @Html.ActionLink(Resource.Color, "colors", "admin", routeValues: null, htmlAttributes: new { @class = "btn btn-dark" })
+    @Html.ActionLink(Resource.Size, "sizes", "admin", routeValues: null, htmlAttributes: new { @class = "btn btn-dark" })
+</div>
+
+

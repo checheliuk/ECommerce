@@ -1,0 +1,168 @@
+﻿@model ECommerce.Domain.ViewModel.ShippingViewModel
+@using ECommerce.Domain.Model
+@using ECommerce.WebUI.Helpers
+@{
+    ViewBag.Title = "Подтверждение заказа";
+    ViewBag.Keywords = Resource.Keywords;
+    List<SelectListItem> area = ViewBag.Area;
+    var paymentItems = new List<SelectListItem>();
+    foreach (var item in Enum.GetValues(typeof(EnumModel.TypePayment)))
+    {
+        paymentItems.Add(new SelectListItem
+        {
+            Text = HelperCommon.GetDescription((EnumModel.TypePayment)item),
+            Value = ((int)item).ToString()
+        });
+    }
+
+    var deliveryItems = new List<SelectListItem>();
+    foreach (var item in Enum.GetValues(typeof(EnumModel.DeliveryService)))
+    {
+        deliveryItems.Add(new SelectListItem
+        {
+            Text = HelperCommon.GetDescription((EnumModel.DeliveryService)item),
+            Value = ((int)item).ToString()
+        });
+    }
+}
+@section meta{
+    <link rel="canonical" href="@(Resource.UrlSite + "/catalog/checkout")" />
+    <meta property="og:image" content="http://nitsak.com.ua/img/social/nitsak-fb.png">
+}
+<div class="page-title">
+    <div class="container">
+        <div class="column"><h1>@Resource.CheckoutOrder</h1></div>
+        <div class="column">
+            <ul class="breadcrumbs">
+                <li itemscope itemtype="http://data-vocabulary.org/Breadcrumb"><a itemprop="url" href="@Url.Action("grid", "catalog")"><span itemprop="title">@Resource.Catalog</span></a></li>
+                <li class="separator">&nbsp;</li>
+                <li itemscope itemtype="http://data-vocabulary.org/Breadcrumb"><a itemprop="url" href="@Url.Action("checkout", "catalog")"><span itemprop="title">@Resource.CheckoutOrder</span></a></li>
+            </ul>
+        </div>
+    </div>
+</div>
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+    @Html.ValidationSummary(true)
+    @Html.HiddenFor(model => Model.shipping.ShippingDetailsID)
+    @Html.HiddenFor(model => Model.shipping.AddressArea)
+    <div class="container padding-bottom-3x mb-2">
+        <div class="row">
+            <div class="col-xl-9 col-lg-8">
+                <h4>@Resource.DeliveryAddress</h4>
+                <hr class="padding-bottom-1x">
+                <div class="row">
+                    <div class="col-sm-6">
+                        <div class="form-group">
+                            <label for="checkout-fn">@Resource.FirstName</label>
+                            @Html.EditorFor(model => model.shipping.FirstName, new { htmlAttributes = new { @class = "form-control", id = "checkout-fn", minlength = "4" } })
+                            @Html.ValidationMessageFor(model => model.shipping.FirstName, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                    <div class="col-sm-6">
+                        <div class="form-group">
+                            <label for="checkout-ln">@Resource.LastName</label>
+                            @Html.TextBoxFor(model => model.shipping.LastName, new { @class = "form-control", id = "checkout-ln", minlength = "4" })
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-6">
+                        <div class="form-group">
+                            <label for="checkout-phone">@Resource.PhoneNumber</label>
+                            @Html.TextBoxFor(model => model.shipping.Phone, new { @class = "form-control", id = "checkout-phone", type = "tel", placeholder = "0638251498", minlength = "9", maxlength = "10" })
+                        </div>
+                    </div>
+                    <div class="col-sm-6">
+                        <div class="form-group">
+                            <label for="checkout-delivery">@Resource.DeliveryService</label>
+                            @Html.DropDownListFor(model => model.shipping.Delivery, deliveryItems, Resource.ChooseDeliveryService, new { @class = "form-control", id = "checkout-delivery" })
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-6">
+                        <div class="form-group">
+                            <label for="checkout-payment">@Resource.PymentMethod</label>
+                            @Html.DropDownListFor(model => model.shipping.Payment, paymentItems, Resource.ChoosePymentMethod, new { @class = "form-control", id = "checkout-payment" })
+                        </div>
+                    </div>
+                    <div class="col-sm-6">
+                        <div class="form-group">
+                            <label for="checkout-area">@Resource.Area</label>
+                            @Html.DropDownListFor(model => model.shipping.AddressAreaID, area, Resource.ChooseArea, new { @class = "form-control", id = "checkout-area" })
+                        </div>
+                    </div>
+                </div>
+                <div class="row padding-bottom-1x">
+                    <div class="col-sm-6">
+                        <div class="form-group">
+                            <label for="checkout-town">@Resource.Town</label>
+                            @Html.TextBoxFor(model => model.shipping.Town, new { @class = "form-control", id = "checkout-town", placeholder = "Винница" })
+                        </div>
+                    </div>
+                    <div class="col-sm-6 nova-posta">
+                        <div class="form-group">
+                            <label for="checkout-warehouses">@Resource.WarehousesNovaPoshta</label>
+                            @Html.TextBoxFor(model => model.shipping.Warehouses, new { @class = "form-control", id = "checkout-warehouses", placeholder = "Отделение №1, ул. Аэродром, д.10" })
+                            <a class="btn btn-sm btn-primary" target="_blank" href="https://novaposhta.ua/ru/office">@Resource.NearestOffice</a>
+                        </div>
+                    </div>
+                    <div class="col-sm-6 ukrposhta">
+                        <div class="form-group">
+                            <label for="checkout-zipcode">@Resource.ZipCode</label>
+                            @Html.TextBoxFor(model => model.shipping.ZipCode, new { @class = "form-control", id = "checkout-zipcode", placeholder = "21000", minlength = "5", maxlength = "5" })
+                        </div>
+                    </div>
+                    <div class="col-sm-12 ukrposhta">
+                        <div class="form-group">
+                            <label for="checkout-address">@Resource.Address</label>
+                            @Html.TextBoxFor(model => model.shipping.Address, new { @class = "form-control", id = "checkout-address", placeholder = "ул. Коцюбинского, д.40 кв 34" })
+                        </div>
+                    </div>
+                </div>
+                <div class="column text-center"><button class="btn btn-primary" id="checkout-submit" type="submit" disabled>@Resource.CompleteOrder</button></div>
+            </div>
+            <div class="col-xl-3 col-lg-4" style="margin-top: 5px;">
+                <aside class="sidebar">
+                    <div class="padding-top-2x hidden-lg-up"></div>
+                    <section class="widget widget-order-summary">
+                        <h3 class="widget-title">@Resource.OrderSummary</h3>
+                        <table class="table">
+                            <tr>
+                                <td>@Resource.Total:</td>
+                                <td class="text-medium">@Model.Total @Resource.Currency</td>
+                            </tr>
+                            <tr id="cash-on-delivery-box">
+                                <td>@Resource.CashOnDelivery:</td>
+                                <td class="text-medium"><spam id="cash-on-delivery"></spam> @Resource.Currency</td>
+                            </tr>
+                            <tr id="delivery-box">
+                                <td>@Resource.Shipping:</td>
+                                <td class="text-medium"><spam id="delivery"></spam> @Resource.Currency</td>
+                            </tr>
+                            <tr>
+                                <td></td>
+                                <td class="text-lg text-medium"><spam id="sum">@Model.Total</spam> @Resource.Currency</td>
+                            </tr>
+                        </table>
+                    </section>
+                </aside>
+            </div>
+        </div>
+    </div>
+}
+@section scripts
+{
+    <script>
+        var total = @Html.Raw(Json.Encode(Model.Total));
+        var novaPostaDelivery = @ECommerce.Domain.ConstantsData.SiteConstants.NovaPostaDelivery;
+        var novaPostaInterest = @ECommerce.Domain.ConstantsData.SiteConstants.NovaPostaInterest;
+        var novaPostaBase = @ECommerce.Domain.ConstantsData.SiteConstants.NovaPostaBase;
+        var ukrPoshtaDelivery = @ECommerce.Domain.ConstantsData.SiteConstants.UkrPoshtaDelivery;
+        var ukrPoshtaInterest = @ECommerce.Domain.ConstantsData.SiteConstants.UkrPoshtaInterest;
+        var ukrPoshtaBase = @ECommerce.Domain.ConstantsData.SiteConstants.UkrPoshtaBase;
+    </script>
+    <script src="~/Scripts/checkout.js" type="text/javascript"></script>
+}
